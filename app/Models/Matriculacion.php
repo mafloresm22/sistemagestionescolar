@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Matriculacion extends Model
+{
+    protected $table = 'matriculacions';
+    protected $primaryKey = 'idMatriculacion';
+    protected $fillable = [
+        'fechaMatriculacion',
+        'estudianteID',
+        'turnoID',
+        'gestionID',
+        'seccionID',
+        'observacionesMatriculacion',
+        'estadoMatriculacion',
+    ];
+
+    public function estudiante()
+    {
+        return $this->belongsTo(Estudiante::class, 'estudianteID', 'idEstudiante');
+    }
+
+    public function turno()
+    {
+        return $this->belongsTo(Turnos::class, 'turnoID', 'idTurno');
+    }
+
+    public function gestion()
+    {
+        return $this->belongsTo(Gestion::class, 'gestionID', 'idGestion');
+    }
+
+    public function seccion()
+    {
+        return $this->belongsTo(Secciones::class, 'seccionID', 'idSeccion');
+    }
+}

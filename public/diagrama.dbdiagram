@@ -7,8 +7,8 @@
     {
       "name": "Configuraciones",
       "schemaName": "public",
-      "x": 266.68986330250215,
-      "y": -227.4416472694824
+      "x": 255.20345281470208,
+      "y": -183.13692110225355
     },
     {
       "name": "Gestiones",
@@ -19,8 +19,8 @@
     {
       "name": "Niveles",
       "schemaName": "public",
-      "x": 965.3229682488593,
-      "y": 309.7705023989017
+      "x": 233.47452859759773,
+      "y": 331.1024075905304
     },
     {
       "name": "Turnos",
@@ -31,26 +31,26 @@
     {
       "name": "Periodos",
       "schemaName": "public",
-      "x": 741.0535138561154,
-      "y": -357.57235922977947
+      "x": 471.9433252847994,
+      "y": -342.8041171740365
     },
     {
       "name": "Secciones",
       "schemaName": "public",
-      "x": 217.5094671517497,
-      "y": 418.01151221206266
+      "x": 1011.712706593926,
+      "y": 470.5208172991487
     },
     {
       "name": "Grados",
       "schemaName": "public",
-      "x": 502.58115570884183,
-      "y": 246.38622070010138
+      "x": 506.4012771106801,
+      "y": 193.49968748386345
     },
     {
       "name": "Cursos",
       "schemaName": "public",
-      "x": 599.4620750177974,
-      "y": 405.3312618545301
+      "x": 622.4348959933975,
+      "y": 364.3083672552442
     },
     {
       "name": "Roles",
@@ -87,6 +87,12 @@
       "schemaName": "public",
       "x": 634.443825478179,
       "y": 1088.5103051395413
+    },
+    {
+      "name": "Matriculacion",
+      "schemaName": "public",
+      "x": 1261.6220737284016,
+      "y": 3.159453026656024
     }
   ],
   "tableGroupCollapseStates": [],
@@ -105,6 +111,7 @@
       "secondTableName": "Periodos",
       "secondSchemaName": "public",
       "secondRelation": "*",
+      "firstEndpointSide": "left",
       "checkPoints": []
     },
     {
@@ -122,8 +129,12 @@
       "secondRelation": "*",
       "checkPoints": [
         {
-          "x": 482.58115570884183,
-          "y": 530.0115122120626
+          "x": 952.3967851316028,
+          "y": 241.49968748386345
+        },
+        {
+          "x": 952.3967851316028,
+          "y": 582.5208172991487
         }
       ]
     },
@@ -140,7 +151,7 @@
       "secondTableName": "Grados",
       "secondSchemaName": "public",
       "secondRelation": "*",
-      "secondEndpointSide": "right",
+      "secondEndpointSide": "left",
       "checkPoints": []
     },
     {
@@ -158,12 +169,16 @@
       "secondRelation": "*",
       "checkPoints": [
         {
+          "x": 732.5140700794301,
+          "y": 294.3862207001014
+        },
+        {
           "x": 909.5839234267208,
           "y": 294.3862207001014
         },
         {
           "x": 909.5839234267208,
-          "y": 613.3312618545301
+          "y": 572.3083672552442
         }
       ]
     },
@@ -238,6 +253,66 @@
         "padreFamiliaID"
       ],
       "secondTableName": "Estudiantes",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idEstudiante"
+      ],
+      "firstTableName": "Estudiantes",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "estudianteID"
+      ],
+      "secondTableName": "Matriculacion",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idTurno"
+      ],
+      "firstTableName": "Turnos",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "turnoID"
+      ],
+      "secondTableName": "Matriculacion",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idGestion"
+      ],
+      "firstTableName": "Gestiones",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "gestionID"
+      ],
+      "secondTableName": "Matriculacion",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idSeccion"
+      ],
+      "firstTableName": "Secciones",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "seccionID"
+      ],
+      "secondTableName": "Matriculacion",
       "secondSchemaName": "public",
       "secondRelation": "*",
       "checkPoints": []

@@ -17,4 +17,9 @@ class Secciones extends Model
     {
         return $this->belongsTo(Grados::class, 'gradoID');
     }
+
+    public function matriculacions()
+    {
+        return $this->hasMany(Matriculacion::class, 'seccionID', 'idSeccion');
+    }
 }

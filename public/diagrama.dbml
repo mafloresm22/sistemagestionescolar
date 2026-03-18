@@ -144,3 +144,21 @@ Table PadreFamilia{
     direccionPadreFamilia varchar
     estadoPadreFamilia EstadoApoderado [default: 'Activo']
 }
+
+enum EstadoMatriculacion {
+    Activo
+    Inactivo
+    Retirado
+    Anulado
+}
+
+Table Matriculacion {
+    idMatriculacion int [pk, increment]
+    fechaMatriculacion date
+    estudianteID int [ref: > Estudiantes.idEstudiante]
+    turnoID int [ref: > Turnos.idTurno]
+    gestionID int [ref: > Gestiones.idGestion]
+    seccionID int [ref: > Secciones.idSeccion]
+    observacionesMatriculacion text
+    estadoMatriculacion EstadoMatriculacion [default: 'Activo']
+}
