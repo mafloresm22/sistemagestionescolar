@@ -47,14 +47,14 @@
         <div class="col-lg-3 col-6 mb-4">
             <div class="small-box premium-small-box bg-gradient-info-custom animated-card" style="animation-delay: 0.3s;">
                 <div class="inner">
-                    <h3>0</h3>
-                    <p>Configuraciones</p>
+                    <h3>{{ $estudiantesCount ?? 0 }}</h3>
+                    <p>Estudiantes</p>
                 </div>
                 <div class="icon">
-                    <i class="fas fa-cogs"></i>
+                    <i class="fas fa-user-graduate"></i>
                 </div>
                 <div class="shape-bg"></div>
-                <a href="#" class="small-box-footer custom-footer">
+                <a href="{{ route('admin.estudiantes.index') }}" class="small-box-footer custom-footer">
                     Ver más <i class="fas fa-arrow-circle-right ml-1"></i>
                 </a>
             </div>

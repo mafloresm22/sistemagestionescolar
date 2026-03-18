@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cursos;
 use App\Models\Personal;
+use App\Models\Estudiante;
 
 class AdminController extends Controller
 {
@@ -13,6 +14,7 @@ class AdminController extends Controller
     {
         $cursosCount = Cursos::where('estado', 'Activo')->count();
         $administrativosCount = Personal::where('tipoPersonal', 'Administrativo')->count();
-        return view('admin.index', compact('cursosCount', 'administrativosCount'));
+        $estudiantesCount = Estudiante::where('estadoEstudiante', 'Activo')->count();
+        return view('admin.index', compact('cursosCount', 'administrativosCount', 'estudiantesCount'));
     }
 }
