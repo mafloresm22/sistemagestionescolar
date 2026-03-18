@@ -1,0 +1,146 @@
+Table Configuraciones {
+    idConfiguraciones int [pk, increment] 
+    nombreConfiguraciones varchar
+    descripcionConfiguraciones varchar
+    direccionConfiguraciones varchar
+    telefonoConfiguraciones varchar
+    correoInstitucionalConfiguraciones varchar
+    webConfiguraciones varchar
+    logoConfiguraciones varchar
+    divisaConfiguraciones varchar
+}
+
+Table Gestiones {
+    idGestion int [pk, increment]
+    nombreGestion varchar
+}
+
+
+Table Niveles {
+    idNivel int [pk, increment]
+    nombreNivel varchar
+}
+
+Table Turnos {
+    idTurno int [pk, increment]
+    nombreTurno varchar
+}
+
+Table Periodos {
+    idPeriodo int [pk, increment]
+    nombrePeriodo varchar
+    gestionID int [ref: > Gestiones.idGestion] 
+}
+
+Table Secciones {
+    idSeccion int [pk, increment]
+    nombreSeccion varchar
+    gradoID int [ref: > Grados.idGrado]
+}
+
+Table Grados {
+    idGrado int [pk, increment]
+    nombreGrado varchar
+    nivelID int [ref: > Niveles.idNivel]
+}
+
+enum EstadoCurso{
+    Activo
+    Inactivo
+}
+Table Cursos {
+    idCurso int [pk, increment]
+    codigoCurso varchar [unique]
+    nombreCurso varchar
+    descripcionCurso varchar
+    estado EstadoCurso [default: 'Activo']
+    gradoID int [ref: > Grados.idGrado]
+}
+
+Table Roles{
+    idRol int [pk, increment]
+    nombreRol varchar
+    descripcionRol varchar
+    estadoRol varchar
+}
+
+Table Users{
+    id int [pk, increment]
+    name varchar
+    email varchar
+    password varchar
+    rolID int [ref: > Roles.idRol]
+}
+
+enum EstadoPersonal{
+    Activo
+    Inactivo
+}
+
+enum TipoPersonal{
+    Docente
+    Administrativo
+}
+
+Table Personal{
+    idPersonal int [pk, increment]
+    nombrePersonal varchar
+    apellidoPersonal varchar
+    dniPersonal int 
+    fechaNacimientoPersonal date
+    generoPersonal varchar
+    celularPersonal int
+    tipoPersonal TipoPersonal
+    profesionPersonal varchar
+    estadoPersonal EstadoPersonal [default: 'Activo']
+    userID int [ref: > Users.id]
+}
+
+Table FormacionAcademica{
+    idFormacionAcademica int [pk, increment]
+    tituloFormacionAcademica varchar
+    nivelFormacionAcademica varchar
+    anioFormacionAcademica year
+    institucionFormacionAcademica varchar
+    archivoFormacionAcademica varchar
+    personalID int [ref: > Personal.idPersonal]
+}
+
+enum EstadoEstudiante{
+    Activo
+    Inactivo
+}
+
+enum EstadoApoderado{
+    Activo
+    Inactivo
+}
+
+Table Estudiantes{
+    idEstudiante int [pk, increment]
+    nombreEstudiante varchar
+    apellidoEstudiante varchar
+    dniEstudiante int 
+    fechaNacimientoEstudiante date
+    generoEstudiante varchar
+    celularEstudiante int
+    correoEstudiante varchar
+    direccionEstudiante varchar
+    fotoEstudiante varchar
+    estadoEstudiante EstadoEstudiante [default: 'Activo']
+    userID int [ref: > Users.id]
+    padreFamiliaID int [ref: > PadreFamilia.idPadreFamilia]
+}
+
+Table PadreFamilia{
+    idPadreFamilia int [pk, increment]
+    nombrePadreFamilia varchar
+    apellidoPadreFamilia varchar
+    dniPadreFamilia int 
+    fechaNacimientoPadreFamilia date
+    generoPadreFamilia varchar
+    celularPadreFamilia int
+    correoPadreFamilia varchar
+    direccionPadreFamilia varchar
+    estadoPadreFamilia EstadoApoderado [default: 'Activo']
+}

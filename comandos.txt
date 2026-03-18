@@ -1,0 +1,24 @@
+--- CREAR MODELOS ----
+php artisan make:model Configuraciones -mcr
+
+ (database -> migrations -> create_configuraciones_table.php)
+
+php artisan migrate (LLEVA A LA BASE DE DATOS)
+
+
+--- ROLES
+
+composer require spatie/laravel-permission
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+php artisan optimize:clear
+php artisan migrate
+
+En App\Models\User.php
+
+use Spatie\Permission\Traits\HasRoles;
+
+class User extends Authenticatable
+{
+    use HasRoles;
+    // ... resto de tu código
+}

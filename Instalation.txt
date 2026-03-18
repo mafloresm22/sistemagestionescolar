@@ -1,0 +1,35 @@
+CREAR PROYECTO LARAVEL
+
+- composer create-project --prefer-dist laravel/laravel .
+
+
+CREAR INTERFACES DE LARAVEL
+
+- composer require laravel/ui
+- php artisan ui bootstrap --auth
+- (DESCARGAR) composer require jeroennoten/laravel-adminlte
+- (INSTALAR) php artisan adminlte:install
+
+(volver hacer paso 1 y 2 - Yes a todo en el paso 2)
+
+- npm install
+- npm run dev
+
+
+PUBLICAR LAS VISTAS DE adminlte
+
+- php artisan adminlte:install --only=auth_views
+- php artisan adminlte:plugins install --plugin=icheckBootstrap
+- php artisan adminlte:install --only=main_views
+
+
+PARA MIGRAR LA BASE DE DATOS
+
+- php artisan migrate
+
+
+
+
+PARA CAMBIAR EL DASHBOARD DE LARAVEL A ADMINLTE, SE CAMBIA EN (https://jeroennoten.github.io/Laravel-AdminLTE/sections/overview/usage.html)
+
+resources -> views -> home.blade.php

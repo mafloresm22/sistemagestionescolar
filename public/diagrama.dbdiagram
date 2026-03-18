@@ -1,0 +1,246 @@
+{
+  "version": "1.0.0",
+  "darkMode": true,
+  "gridEnabling": false,
+  "detailLevel": "All",
+  "tablePositions": [
+    {
+      "name": "Configuraciones",
+      "schemaName": "public",
+      "x": 266.68986330250215,
+      "y": -227.4416472694824
+    },
+    {
+      "name": "Gestiones",
+      "schemaName": "public",
+      "x": 743.9764314832626,
+      "y": -171.52595808539198
+    },
+    {
+      "name": "Niveles",
+      "schemaName": "public",
+      "x": 965.3229682488593,
+      "y": 309.7705023989017
+    },
+    {
+      "name": "Turnos",
+      "schemaName": "public",
+      "x": 746.7886212779904,
+      "y": -24.168020200124033
+    },
+    {
+      "name": "Periodos",
+      "schemaName": "public",
+      "x": 741.0535138561154,
+      "y": -357.57235922977947
+    },
+    {
+      "name": "Secciones",
+      "schemaName": "public",
+      "x": 217.5094671517497,
+      "y": 418.01151221206266
+    },
+    {
+      "name": "Grados",
+      "schemaName": "public",
+      "x": 502.58115570884183,
+      "y": 246.38622070010138
+    },
+    {
+      "name": "Cursos",
+      "schemaName": "public",
+      "x": 599.4620750177974,
+      "y": 405.3312618545301
+    },
+    {
+      "name": "Roles",
+      "schemaName": "public",
+      "x": 285.2507257135493,
+      "y": 885.919186795512
+    },
+    {
+      "name": "Users",
+      "schemaName": "public",
+      "x": 333.4720801684642,
+      "y": 586.9888438415016
+    },
+    {
+      "name": "Personal",
+      "schemaName": "public",
+      "x": 652.049050087554,
+      "y": 649.5093899803057
+    },
+    {
+      "name": "FormacionAcademica",
+      "schemaName": "public",
+      "x": 1005.2799009842655,
+      "y": 710.1943723674631
+    },
+    {
+      "name": "Estudiantes",
+      "schemaName": "public",
+      "x": 217.5094671517497,
+      "y": 1099.6441562609632
+    },
+    {
+      "name": "PadreFamilia",
+      "schemaName": "public",
+      "x": 634.443825478179,
+      "y": 1088.5103051395413
+    }
+  ],
+  "tableGroupCollapseStates": [],
+  "stickyNoteLayouts": [],
+  "referencePaths": [
+    {
+      "firstFieldNames": [
+        "idGestion"
+      ],
+      "firstTableName": "Gestiones",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "gestionID"
+      ],
+      "secondTableName": "Periodos",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idGrado"
+      ],
+      "firstTableName": "Grados",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "gradoID"
+      ],
+      "secondTableName": "Secciones",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": [
+        {
+          "x": 482.58115570884183,
+          "y": 530.0115122120626
+        }
+      ]
+    },
+    {
+      "firstFieldNames": [
+        "idNivel"
+      ],
+      "firstTableName": "Niveles",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "nivelID"
+      ],
+      "secondTableName": "Grados",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "secondEndpointSide": "right",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idGrado"
+      ],
+      "firstTableName": "Grados",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "gradoID"
+      ],
+      "secondTableName": "Cursos",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": [
+        {
+          "x": 909.5839234267208,
+          "y": 294.3862207001014
+        },
+        {
+          "x": 909.5839234267208,
+          "y": 613.3312618545301
+        }
+      ]
+    },
+    {
+      "firstFieldNames": [
+        "idRol"
+      ],
+      "firstTableName": "Roles",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "rolID"
+      ],
+      "secondTableName": "Users",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Users",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "userID"
+      ],
+      "secondTableName": "Personal",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idPersonal"
+      ],
+      "firstTableName": "Personal",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "personalID"
+      ],
+      "secondTableName": "FormacionAcademica",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Users",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "userID"
+      ],
+      "secondTableName": "Estudiantes",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idPadreFamilia"
+      ],
+      "firstTableName": "PadreFamilia",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "padreFamiliaID"
+      ],
+      "secondTableName": "Estudiantes",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    }
+  ]
+}
