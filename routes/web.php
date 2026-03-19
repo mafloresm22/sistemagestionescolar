@@ -110,4 +110,13 @@ Route::middleware('auth')->prefix('admin/estudiantes')->group(function () {
     Route::get('/show/{id}', [App\Http\Controllers\EstudianteController::class, 'show'])->name('admin.estudiantes.show');
     Route::put('/update/{id}', [App\Http\Controllers\EstudianteController::class, 'update'])->name('admin.estudiantes.update');
     Route::delete('/delete/{id}', [App\Http\Controllers\EstudianteController::class, 'destroy'])->name('admin.estudiantes.destroy');
+
+    // MATRICULACION
+    Route::get('/matriculacion', [App\Http\Controllers\MatriculacionController::class, 'index'])->name('admin.matriculacion.index');
+    Route::get('/matriculacion/create', [App\Http\Controllers\MatriculacionController::class, 'create'])->name('admin.matriculacion.create');
+    Route::post('/matriculacion/store', [App\Http\Controllers\MatriculacionController::class, 'store'])->name('admin.matriculacion.store');
+    Route::get('/matriculacion/show/{id}', [App\Http\Controllers\MatriculacionController::class, 'show'])->name('admin.matriculacion.show');
+    Route::get('/matriculacion/edit/{id}', [App\Http\Controllers\MatriculacionController::class, 'edit'])->name('admin.matriculacion.edit');
+    Route::put('/matriculacion/update/{id}', [App\Http\Controllers\MatriculacionController::class, 'update'])->name('admin.matriculacion.update');
+    Route::delete('/matriculacion/delete/{id}', [App\Http\Controllers\MatriculacionController::class, 'destroy'])->name('admin.matriculacion.destroy');
 });

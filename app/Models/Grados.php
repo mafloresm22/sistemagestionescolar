@@ -21,4 +21,9 @@ class Grados extends Model
     {
         return $this->hasMany(Secciones::class, 'gradoID');
     }
+
+    public function matriculacions()
+    {
+        return $this->hasMany(Matriculacion::class, 'gradosID', 'id');
+    }
 }

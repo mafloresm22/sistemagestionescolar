@@ -159,6 +159,8 @@ Table Matriculacion {
     turnoID int [ref: > Turnos.idTurno]
     gestionID int [ref: > Gestiones.idGestion]
     seccionID int [ref: > Secciones.idSeccion]
+    nivelesID int [ref: > Niveles.idNivel]
+    gradosID int [ref: > Grados.idGrado]
     observacionesMatriculacion text
     estadoMatriculacion EstadoMatriculacion [default: 'Activo']
 }

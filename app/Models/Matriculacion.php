@@ -14,6 +14,8 @@ class Matriculacion extends Model
         'turnoID',
         'gestionID',
         'seccionID',
+        'nivelesID',
+        'gradosID',
         'observacionesMatriculacion',
         'estadoMatriculacion',
     ];
@@ -36,5 +38,15 @@ class Matriculacion extends Model
     public function seccion()
     {
         return $this->belongsTo(Secciones::class, 'seccionID', 'idSeccion');
+    }
+
+    public function nivel()
+    {
+        return $this->belongsTo(Niveles::class, 'nivelesID', 'id');
+    }
+
+    public function grado()
+    {
+        return $this->belongsTo(Grados::class, 'gradosID', 'id');
     }
 }

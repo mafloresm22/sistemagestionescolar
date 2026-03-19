@@ -15,4 +15,9 @@ class Niveles extends Model
     {
         return $this->hasMany(Grados::class, 'nivelID');
     }
+
+    public function matriculacions()
+    {
+        return $this->hasMany(Matriculacion::class, 'nivelesID', 'id');
+    }
 }

@@ -6,14 +6,28 @@ use App\Models\Matriculacion;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\Estudiante;
+use App\Models\Niveles;
+use App\Models\Grados;
+use App\Models\Secciones;
+use App\Models\Turnos;
+use App\Models\Gestion;
+
 class MatriculacionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $matriculacions = Matriculacion::with(['estudiante', 'nivel', 'grado', 'seccion', 'turno', 'gestion'])->get();
+        $estudiantes = Estudiante::with('padreFamilia')->where('estadoEstudiante', 'Activo')->get();
+        $niveles = Niveles::all();
+        $grados = Grados::with('nivel')->get();
+        $secciones = Secciones::with('grados')->get();
+        $turnos = Turnos::all();
+        $gestiones = Gestion::all();
+
+        return view('admin.estudiantes.matriculacion.index', compact(
+            'matriculacions', 'estudiantes', 'niveles', 'grados', 'secciones', 'turnos', 'gestiones'
+        ));
     }
 
     /**
