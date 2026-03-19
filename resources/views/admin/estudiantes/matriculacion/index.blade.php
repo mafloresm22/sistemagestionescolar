@@ -35,12 +35,12 @@
                     <thead class="bg-light">
                         <tr>
                             <th class="border-0 px-4">Estudiante</th>
+                            <th class="border-0">Gestión</th>
                             <th class="border-0">Nivel y Grado</th>
                             <th class="border-0">Sección</th>
                             <th class="border-0">Turno</th>
-                            <th class="border-0">Gestión</th>
                             <th class="border-0">Fecha</th>
-                            <th class="border-0 text-center" style="width: 120px;">Acciones</th>
+                            <th class="border-0 text-center" style="width: 150px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,8 +55,14 @@
                                         </div>
                                         <div>
                                             <div class="font-weight-bold text-dark">{{ $m->estudiante->nombreEstudiante }} {{ $m->estudiante->apellidoEstudiante }}</div>
-                                            <small class="text-muted">DNI: {{ $m->estudiante->dniEstudiante }}</small>
+                                            <small class="text-muted"><i class="fas fa-id-card mr-1"></i> {{ $m->estudiante->dniEstudiante }}</small>
                                         </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <div class="gestion-tag shadow-sm px-3 py-1">
+                                        <i class="fas fa-graduation-cap mr-2"></i>
+                                        {{ $m->gestion->nombreGestion }}
                                     </div>
                                 </td>
                                 <td class="align-middle">
@@ -67,13 +73,29 @@
                                     {{ $m->seccion->nombreSeccion ?? 'N/A' }}
                                 </td>
                                 <td class="align-middle">
-                                    <span class="badge badge-light border px-2 py-1">{{ $m->turno->nombreTurno }}</span>
-                                </td>
-                                <td class="align-middle text-secondary font-weight-600">
-                                    {{ $m->gestion->nombreGestion }}
+                                    @php
+                                        $turnoLabel = mb_strtolower($m->turno->nombreTurno);
+                                        $badgeClass = 'badge-light';
+                                        $customStyle = '';
+                                        
+                                        if (str_contains($turnoLabel, 'mañana')) {
+                                            $badgeClass = 'badge-warning';
+                                            $customStyle = 'color: #856404; background-color: #fff3cd; border: 1px solid #ffeeba;';
+                                        } elseif (str_contains($turnoLabel, 'tarde')) {
+                                            $badgeClass = 'btn-orange';
+                                            $customStyle = 'color: #ffffff; background-color: #fd7e14; border: none;';
+                                        } elseif (str_contains($turnoLabel, 'noche')) {
+                                            $badgeClass = 'badge-info';
+                                            $customStyle = 'color: #fff; background-color: #17a2b8; border: none;';
+                                        }
+                                    @endphp
+                                    <span class="badge {{ $badgeClass }} px-2 py-1" style="border-radius: 6px; {{ $customStyle }}">
+                                        <i class="fas fa-clock mr-1 small"></i> {{ $m->turno->nombreTurno }}
+                                    </span>
                                 </td>
                                 <td class="align-middle">
-                                    <span class="text-secondary">
+                                    <span class="text-secondary small font-weight-bold">
+                                        <i class="far fa-calendar-alt mr-1"></i>
                                         {{ \Carbon\Carbon::parse($m->fechaMatriculacion)->format('d/m/Y') }}
                                     </span>
                                 </td>
@@ -84,6 +106,9 @@
                                         </a>
                                         <a href="{{ route('admin.matriculacion.show', $m->idMatriculacion) }}" class="btn btn-sm btn-white text-info btn-action-table" title="Ver Detalles">
                                             <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-sm btn-white text-secondary btn-action-table" title="Historial Estudiante">
+                                            <i class="fas fa-history"></i>
                                         </a>
                                     </div>
                                 </td>
@@ -103,6 +128,7 @@
 @section('plugins.Select2', true)
 
 @section('css')
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap4.min.css">
 <style>
     :root {
         --primary-blue: #007bff;
@@ -110,6 +136,25 @@
     }
 
     .bg-primary-soft { background-color: var(--primary-soft); }
+    
+    .gestion-tag {
+        display: inline-flex;
+        align-items: center;
+        background-color: #f3f0ff;
+        color: #5f3dc4;
+        border: 1.5px solid #dcd3ff;
+        border-radius: 10px;
+        font-weight: 800;
+        font-size: 0.8rem;
+        letter-spacing: 0.2px;
+        transition: all 0.3s ease;
+    }
+
+    .gestion-tag:hover {
+        background-color: #5f3dc4;
+        color: #fff;
+        transform: scale(1.05);
+    }
     
     .btn-primary-custom {
         background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
@@ -151,11 +196,20 @@
         z-index: 1;
     }
 
+    /* Estilo de los botones */
+    .dt-buttons .btn {
+        margin-right: 5px !important;
+        border-radius: 10px !important;
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 0.375rem 0.75rem;
+    }
+
     #matriculasTable_filter input {
         border-radius: 10px;
         border: 1.5px solid #eaecf4;
         padding: 0.3rem 0.8rem;
-        width: 220px !important;
+        width: 200px !important;
         transition: all 0.3s;
         margin-left: 8px !important;
     }
@@ -164,12 +218,27 @@
         border-color: #007bff;
         outline: none;
         box-shadow: 0 0 10px rgba(0, 123, 255, 0.1);
-        width: 300px !important;
+        width: 250px !important;
+    }
+
+    .btn-orange {
+        color: #fff;
+        background-color: #fd7e14;
+        border-color: #fd7e14;
     }
 </style>
 @stop
 
 @section('js')
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
+
 <script>
     $(document).ready(function() {
         $('#matriculasTable').DataTable({
@@ -182,10 +251,56 @@
             "ordering": true,
             "info": true,
             "responsive": true,
-            "dom": '<"p-0"f>t<"card-footer bg-white d-flex justify-content-between align-items-center border-top-0 px-3 py-2"ip>',
+            "autoWidth": false,
+            "dom": "<'row mb-3 px-4 pt-4'<'col-md-8'B><'col-md-4'f>>" +
+                   "<'row'<'col-sm-12'tr>>" +
+                   "<'row mt-4 px-4 pb-4'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            "buttons": [
+                {
+                    extend: 'copy',
+                    text: '<i class="fas fa-copy"></i> Copiar',
+                    className: 'btn btn-secondary shadow-sm'
+                },
+                {
+                    extend: 'csv',
+                    text: '<i class="fas fa-file-csv"></i> CSV',
+                    className: 'btn btn-info shadow-sm'
+                },
+                {
+                    extend: 'excel',
+                    text: '<i class="fas fa-file-excel"></i> Excel',
+                    className: 'btn btn-success shadow-sm'
+                },
+                {
+                    extend: 'pdf',
+                    text: '<i class="fas fa-file-pdf"></i> PDF',
+                    className: 'btn btn-danger shadow-sm'
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fas fa-print"></i> Imprimir',
+                    className: 'btn btn-dark shadow-sm'
+                },
+                {
+                    extend: 'colvis',
+                    text: '<i class="fas fa-columns"></i> Columnas',
+                    className: 'btn btn-white shadow-sm'
+                }
+            ]
         });
-
-        $('#div_buscar').append($('#matriculasTable_filter'));
     });
 </script>
+
+@if(session('mensaje') && session('icono'))
+<script>
+    Swal.fire({
+        title: "¡Hecho!",
+        text: "{{ session('mensaje') }}",
+        icon: "{{ session('icono') }}",
+        confirmButtonColor: '#007bff',
+        timer: 4000,
+        timerProgressBar: true
+    });
+</script>
+@endif
 @stop

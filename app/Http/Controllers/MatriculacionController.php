@@ -29,21 +29,46 @@ class MatriculacionController extends Controller
             'matriculacions', 'estudiantes', 'niveles', 'grados', 'secciones', 'turnos', 'gestiones'
         ));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'estudianteID' => 'required|exists:estudiantes,idEstudiante',
+            'nivelesID' => 'required|exists:niveles,id',
+            'gradosID' => 'required|exists:grados,id',
+            'seccionID' => 'required|exists:secciones,idSeccion',
+            'turnoID' => 'required|exists:turnos,id',
+            'gestionID' => 'required|exists:gestions,id',
+            'fechaMatriculacion' => 'required|date',
+        ]);
+
+        // Verificar si el estudiante ya está matriculado en la misma gestión (año)
+        $existeMatricula = Matriculacion::where('estudianteID', $request->estudianteID)
+            ->where('gestionID', $request->gestionID)
+            ->first();
+
+        if ($existeMatricula) {
+            return redirect()->back()->with([
+                'mensaje' => 'El estudiante ya se encuentra matriculado en esta gestión (año escolar).',
+                'icono' => 'error'
+            ]);
+        }
+
+        Matriculacion::create([
+            'fechaMatriculacion' => $request->fechaMatriculacion,
+            'estudianteID' => $request->estudianteID,
+            'turnoID' => $request->turnoID,
+            'gestionID' => $request->gestionID,
+            'seccionID' => $request->seccionID,
+            'nivelesID' => $request->nivelesID,
+            'gradosID' => $request->gradosID,
+            'observacionesMatriculacion' => $request->observacionesMatriculacion ?? 'Ninguno',
+            'estadoMatriculacion' => 'Activo',
+        ]);
+
+        return redirect()->route('admin.matriculacion.index')->with([
+            'mensaje' => 'Estudiante matriculado con éxito',
+            'icono' => 'success'
+        ]);
     }
 
     /**

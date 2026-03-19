@@ -213,7 +213,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Inicializar Select2 al abrir el modal para evitar bugs de focus
         $('#modalCreateMatriculacion').on('shown.bs.modal', function () {
             $('#estudianteSelect').select2({
                 dropdownParent: $('#modalCreateMatriculacion'),
