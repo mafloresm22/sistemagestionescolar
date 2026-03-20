@@ -29,6 +29,27 @@ class MatriculacionController extends Controller
             'matriculacions', 'estudiantes', 'niveles', 'grados', 'secciones', 'turnos', 'gestiones'
         ));
     }
+
+    public function buscarHistorial(Request $request)
+    {
+        $query = $request->input('query');
+        
+        if (empty($query)) {
+            return response()->json([]);
+        }
+
+        $matriculas = Matriculacion::with(['estudiante', 'nivel', 'grado', 'seccion', 'turno', 'gestion'])
+            ->whereHas('estudiante', function($q) use ($query) {
+                $q->where('dniEstudiante', 'like', "%$query%")
+                  ->orWhere('nombreEstudiante', 'like', "%$query%")
+                  ->orWhere('apellidoEstudiante', 'like', "%$query%");
+            })
+            ->orderBy('fechaMatriculacion', 'desc')
+            ->get();
+
+        return response()->json($matriculas);
+    }
+    
     public function store(Request $request)
     {
         $request->validate([

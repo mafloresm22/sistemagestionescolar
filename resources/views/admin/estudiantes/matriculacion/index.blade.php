@@ -3,26 +3,33 @@
 @section('title', 'Listado de Matriculaciones')
 
 @section('content_header')
-    <div class="d-flex justify-content-between align-items-center animate__animated animate__fadeIn">
-        <div>
-            <h1 class="text-dark font-weight-bold" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
-                <i class="fas fa-file-signature mr-2 text-primary"></i>
-                Listado de Matriculaciones
-            </h1>
-            <p class="text-muted mb-0">Gestión de inscripciones de estudiantes por nivel, grado y sección.</p>
-        </div>
-        <div class="d-flex align-items-center">
-            <button class="btn btn-primary-custom px-4 shadow-sm hover-lift" data-toggle="modal" data-target="#modalCreateMatriculacion">
-                <i class="fas fa-plus-circle mr-2"></i> Nueva Matriculación
-            </button>
-        </div>
+<div class="d-flex justify-content-between align-items-center animate__animated animate__fadeIn">
+    <div>
+        <h1 class="text-dark font-weight-bold" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
+            <i class="fas fa-file-signature mr-2 text-primary"></i>
+            Listado de Matriculaciones
+        </h1>
+        <p class="text-muted mb-0">Gestión de inscripciones de estudiantes por nivel, grado y sección.</p>
     </div>
+    <div class="d-flex align-items-center">
+        <button class="btn btn-secondary-custom px-4 shadow-sm hover-lift" data-toggle="modal"
+            data-target="#modalHistorialEstudiante">
+            <i class="fas fa-history mr-2"></i> Historial Estudiante
+        </button>
+        <button class="btn btn-primary-custom px-4 shadow-sm hover-lift ml-2" data-toggle="modal"
+            data-target="#modalCreateMatriculacion">
+            <i class="fas fa-plus-circle mr-2"></i> Nueva Matriculación
+        </button>
+    </div>
+</div>
 @stop
 
 @section('content')
 <div class="container-fluid">
-    <div class="card shadow-sm border-0 animate__animated animate__fadeInUp" style="border-radius: 15px; overflow: hidden;">
-        <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center pr-3" style="border-radius: 15px 15px 0 0;">
+    <div class="card shadow-sm border-0 animate__animated animate__fadeInUp"
+        style="border-radius: 15px; overflow: hidden;">
+        <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center pr-3"
+            style="border-radius: 15px 15px 0 0;">
             <h3 class="card-title font-weight-bold text-dark mb-0">
                 <i class="fas fa-table mr-2 text-secondary"></i>
                 Registros de Matrículas
@@ -40,6 +47,7 @@
                             <th class="border-0">Sección</th>
                             <th class="border-0">Turno</th>
                             <th class="border-0">Fecha</th>
+                            <th class="border-0">Observaciones</th>
                             <th class="border-0 text-center" style="width: 150px;">Acciones</th>
                         </tr>
                     </thead>
@@ -49,13 +57,16 @@
                                 <td class="px-4 align-middle">
                                     <div class="d-flex align-items-center">
                                         <div class="avatar-sm mr-3">
-                                            <div class="rounded-circle bg-primary-soft d-flex align-items-center justify-content-center shadow-sm" style="width: 45px; height: 45px; font-weight: bold; color: #007bff;">
+                                            <div class="rounded-circle bg-primary-soft d-flex align-items-center justify-content-center shadow-sm"
+                                                style="width: 45px; height: 45px; font-weight: bold; color: #007bff;">
                                                 {{ strtoupper(substr($m->estudiante->nombreEstudiante, 0, 1) . substr($m->estudiante->apellidoEstudiante, 0, 1)) }}
                                             </div>
                                         </div>
                                         <div>
-                                            <div class="font-weight-bold text-dark">{{ $m->estudiante->nombreEstudiante }} {{ $m->estudiante->apellidoEstudiante }}</div>
-                                            <small class="text-muted"><i class="fas fa-id-card mr-1"></i> {{ $m->estudiante->dniEstudiante }}</small>
+                                            <div class="font-weight-bold text-dark">{{ $m->estudiante->nombreEstudiante }}
+                                                {{ $m->estudiante->apellidoEstudiante }}</div>
+                                            <small class="text-muted"><i class="fas fa-id-card mr-1"></i>
+                                                {{ $m->estudiante->dniEstudiante }}</small>
                                         </div>
                                     </div>
                                 </td>
@@ -77,7 +88,7 @@
                                         $turnoLabel = mb_strtolower($m->turno->nombreTurno);
                                         $badgeClass = 'badge-light';
                                         $customStyle = '';
-                                        
+
                                         if (str_contains($turnoLabel, 'mañana')) {
                                             $badgeClass = 'badge-warning';
                                             $customStyle = 'color: #856404; background-color: #fff3cd; border: 1px solid #ffeeba;';
@@ -89,7 +100,8 @@
                                             $customStyle = 'color: #fff; background-color: #17a2b8; border: none;';
                                         }
                                     @endphp
-                                    <span class="badge {{ $badgeClass }} px-2 py-1" style="border-radius: 6px; {{ $customStyle }}">
+                                    <span class="badge {{ $badgeClass }} px-2 py-1"
+                                        style="border-radius: 6px; {{ $customStyle }}">
                                         <i class="fas fa-clock mr-1 small"></i> {{ $m->turno->nombreTurno }}
                                     </span>
                                 </td>
@@ -99,18 +111,14 @@
                                         {{ \Carbon\Carbon::parse($m->fechaMatriculacion)->format('d/m/Y') }}
                                     </span>
                                 </td>
+                                <td class="align-middle">
+                                    <small class="text-muted font-italic">{{ $m->observacionesMatriculacion ?? 'Sin observaciones' }}</small>
+                                </td>
                                 <td class="align-middle text-center">
-                                    <div class="btn-group shadow-sm" style="border-radius: 8px; overflow: hidden;">
-                                        <a href="{{ route('admin.matriculacion.edit', $m->idMatriculacion) }}" class="btn btn-sm btn-white text-primary btn-action-table" title="Editar">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="{{ route('admin.matriculacion.show', $m->idMatriculacion) }}" class="btn btn-sm btn-white text-info btn-action-table" title="Ver Detalles">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-white text-secondary btn-action-table" title="Historial Estudiante">
-                                            <i class="fas fa-history"></i>
-                                        </a>
-                                    </div>
+                                    <a href="{{ route('admin.matriculacion.show', $m->idMatriculacion) }}"
+                                        class="btn btn-info btn-circle shadow-sm" title="Ver Detalles">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -122,6 +130,7 @@
 </div>
 
 @include('admin.estudiantes.matriculacion.create')
+@include('admin.estudiantes.matriculacion.historial')
 @stop
 
 @section('plugins.Datatables', true)
@@ -135,8 +144,10 @@
         --primary-soft: #e7f1ff;
     }
 
-    .bg-primary-soft { background-color: var(--primary-soft); }
-    
+    .bg-primary-soft {
+        background-color: var(--primary-soft);
+    }
+
     .gestion-tag {
         display: inline-flex;
         align-items: center;
@@ -155,24 +166,62 @@
         color: #fff;
         transform: scale(1.05);
     }
-    
+
     .btn-primary-custom {
-        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        background-color: #007bff;
         border: none;
         color: white;
         border-radius: 12px;
         font-weight: 600;
         transition: all 0.3s ease;
     }
-    
+
     .btn-primary-custom:hover {
+        background-color: #0056b3;
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
         color: white;
     }
 
-    .hover-lift { transition: transform 0.2s ease; }
-    .hover-lift:hover { transform: translateY(-3px); }
+    .btn-secondary-custom {
+        background-color: #f8a712;
+        border: none;
+        color: white;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-secondary-custom:hover {
+        background-color: #f9ca30;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(243, 223, 8, 0.89);
+        color: white;
+    }
+
+    .btn-secondary-custom i {
+        transition: transform 0.4s ease;
+    }
+
+    .btn-secondary-custom:hover i {
+        transform: rotate(-360deg);
+    }
+
+    .btn-primary-custom i {
+        transition: transform 0.4s ease;
+    }
+
+    .btn-primary-custom:hover i {
+        transform: scale(1.2) rotate(90deg);
+    }
+
+    .hover-lift {
+        transition: transform 0.2s ease;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-3px);
+    }
 
     .table thead th {
         text-transform: uppercase;
@@ -194,6 +243,23 @@
         background: #f8f9fc;
         transform: scale(1.05);
         z-index: 1;
+    }
+
+    .btn-circle {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    .btn-circle:hover {
+        transform: scale(1.15) rotate(5deg);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15) !important;
     }
 
     /* Estilo de los botones */
@@ -240,7 +306,7 @@
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#matriculasTable').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
@@ -253,8 +319,8 @@
             "responsive": true,
             "autoWidth": false,
             "dom": "<'row mb-3 px-4 pt-4'<'col-md-8'B><'col-md-4'f>>" +
-                   "<'row'<'col-sm-12'tr>>" +
-                   "<'row mt-4 px-4 pb-4'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row mt-4 px-4 pb-4'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             "buttons": [
                 {
                     extend: 'copy',
@@ -288,19 +354,139 @@
                 }
             ]
         });
+
+        // Lógica para el Buscador de Historial en Modal
+        $('#btnBuscarHistorial').on('click', function () {
+            let query = $('#inputBuscarHistorial').val();
+            if (query.trim() === '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Atención',
+                    text: 'Debes ingresar un nombre o DNI para buscar.',
+                    confirmButtonColor: '#f8a712'
+                });
+                return;
+            }
+
+            // Mostrar estado de carga
+            $('#placeholderHistorial').html('<div class="spinner-border text-warning" role="status"><span class="sr-only">Cargando...</span></div><p class="mt-2">Buscando registros...</p>');
+
+            $.ajax({
+                url: "{{ route('admin.matriculacion.buscar-historial') }}",
+                method: 'GET',
+                data: { query: query },
+                success: function (data) {
+                    $('#bodyResultadosHistorial').empty();
+
+                    if (data.length > 0) {
+                        $('#placeholderHistorial').addClass('d-none');
+                        $('#tablaResultados').removeClass('d-none');
+
+                        data.forEach(m => {
+                            let avatar = (m.estudiante.nombreEstudiante.charAt(0) + m.estudiante.apellidoEstudiante.charAt(0)).toUpperCase();
+                            let html = `
+                                <tr>
+                                    <td class="px-4">
+                                        <div class="gestion-tag shadow-sm px-2 py-1 text-center">
+                                            ${m.gestion.nombreGestion}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="rounded-circle bg-warning text-white d-flex align-items-center justify-content-center shadow-sm mr-2"
+                                                style="width: 30px; height: 30px; font-weight: bold; font-size: 0.8rem;">
+                                                ${avatar}
+                                            </div>
+                                            <div style="line-height: 1.2;">
+                                                <div class="font-weight-bold text-dark small">${m.estudiante.nombreEstudiante} ${m.estudiante.apellidoEstudiante}</div>
+                                                <small class="text-muted" style="font-size: 0.7rem;">${m.estudiante.dniEstudiante}</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-info font-weight-bold small">${m.nivel.nombreNivel}</div>
+                                        <small class="text-secondary" style="font-size: 0.75rem;">${m.grado.nombreGrado} - Secc. ${m.seccion ? m.seccion.nombreSeccion : 'N/A'}</small>
+                                    </td>
+                                    <td class="text-dark small">${m.turno.nombreTurno}</td>
+                                    <td class="text-center">
+                                        <span class="badge badge-soft-success">
+                                            ${m.estadoMatriculacion}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-flex justify-content-center">
+                                            <a href="/admin/estudiantes/matriculacion/edit/${m.idMatriculacion}" 
+                                                class="btn btn-primary btn-circle btn-sm shadow-sm mr-2" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="/admin/estudiantes/matriculacion/delete/${m.idMatriculacion}" method="POST" class="formulario-eliminar">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-circle btn-sm shadow-sm" title="Eliminar">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `;
+                            $('#bodyResultadosHistorial').append(html);
+                        });
+                    } else {
+                        $('#tablaResultados').addClass('d-none');
+                        $('#placeholderHistorial').removeClass('d-none').html(`
+                            <div class="display-3 text-warning opacity-25 mb-3">
+                                <i class="fas fa-search-minus"></i>
+                            </div>
+                            <h5 class="text-secondary font-weight-light">No se encontraron registros para "${query}"</h5>
+                        `);
+                    }
+                },
+                error: function (e) {
+                    console.error('Error en búsqueda:', e);
+                    $('#placeholderHistorial').html('<p class="text-danger">Error al realizar la búsqueda. Por favor intente de nuevo.</p>');
+                }
+            });
+        });
+
+        // Permitir buscar con ENTER
+        $('#inputBuscarHistorial').on('keypress', function (e) {
+            if (e.which == 13) {
+                $('#btnBuscarHistorial').click();
+            }
+        });
+
+        // Confirmación de eliminación (Delegada para elementos dinámicos)
+        $(document).on('submit', '.formulario-eliminar', function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción eliminará el registro de matrícula permanentemente.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        });
     });
 </script>
 
 @if(session('mensaje') && session('icono'))
-<script>
-    Swal.fire({
-        title: "¡Hecho!",
-        text: "{{ session('mensaje') }}",
-        icon: "{{ session('icono') }}",
-        confirmButtonColor: '#007bff',
-        timer: 4000,
-        timerProgressBar: true
-    });
-</script>
+    <script>
+        Swal.fire({
+            title: "¡Hecho!",
+            text: "{{ session('mensaje') }}",
+            icon: "{{ session('icono') }}",
+            confirmButtonColor: '#007bff',
+            timer: 4000,
+            timerProgressBar: true
+        });
+    </script>
 @endif
 @stop
