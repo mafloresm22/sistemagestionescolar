@@ -12,6 +12,7 @@ use App\Models\Grados;
 use App\Models\Secciones;
 use App\Models\Turnos;
 use App\Models\Gestion;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class MatriculacionController extends Controller
 {
@@ -100,17 +101,6 @@ class MatriculacionController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Matriculacion $matriculacion)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Matriculacion $matriculacion)
     {
         //
@@ -122,5 +112,14 @@ class MatriculacionController extends Controller
     public function destroy(Matriculacion $matriculacion)
     {
         //
+    }
+
+    public function imprimir($id)
+    {
+        $matriculacion = Matriculacion::with(['estudiante', 'nivel', 'grado', 'seccion', 'turno', 'gestion'])->findOrFail($id);
+        
+        $pdf = Pdf::loadView('admin.estudiantes.matriculacion.pdf', compact('matriculacion'));
+        
+        return $pdf->stream('Matricula_' . $matriculacion->estudiante->dniEstudiante . '.pdf');
     }
 }

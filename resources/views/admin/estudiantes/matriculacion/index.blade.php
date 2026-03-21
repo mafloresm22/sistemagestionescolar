@@ -42,13 +42,13 @@
                     <thead class="bg-light">
                         <tr>
                             <th class="border-0 px-4">Estudiante</th>
+                            <th class="border-0 px-4">DNI</th>
                             <th class="border-0">Gestión</th>
                             <th class="border-0">Nivel y Grado</th>
                             <th class="border-0">Sección</th>
                             <th class="border-0">Turno</th>
                             <th class="border-0">Fecha</th>
-                            <th class="border-0">Observaciones</th>
-                            <th class="border-0 text-center" style="width: 150px;">Acciones</th>
+                            <th class="border-0 text-center" style="width: 100px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,10 +65,14 @@
                                         <div>
                                             <div class="font-weight-bold text-dark">{{ $m->estudiante->nombreEstudiante }}
                                                 {{ $m->estudiante->apellidoEstudiante }}</div>
-                                            <small class="text-muted"><i class="fas fa-id-card mr-1"></i>
-                                                {{ $m->estudiante->dniEstudiante }}</small>
+                                            <small class="text-muted">Estudiante Matriculado</small>
                                         </div>
                                     </div>
+                                </td>
+                                <td class="px-4 align-middle font-weight-bold text-dark">
+                                    <span class="badge badge-light shadow-sm border px-3 py-2" style="border-radius: 8px; color: #495057;">
+                                        <i class="fas fa-id-card-alt mr-2 text-primary"></i> {{ $m->estudiante->dniEstudiante }}
+                                    </span>
                                 </td>
                                 <td class="align-middle">
                                     <div class="gestion-tag shadow-sm px-3 py-1">
@@ -111,13 +115,14 @@
                                         {{ \Carbon\Carbon::parse($m->fechaMatriculacion)->format('d/m/Y') }}
                                     </span>
                                 </td>
-                                <td class="align-middle">
-                                    <small class="text-muted font-italic">{{ $m->observacionesMatriculacion ?? 'Sin observaciones' }}</small>
-                                </td>
                                 <td class="align-middle text-center">
                                     <a href="{{ route('admin.matriculacion.show', $m->idMatriculacion) }}"
                                         class="btn btn-info btn-circle shadow-sm" title="Ver Detalles">
                                         <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('admin.matriculacion.imprimir', $m->idMatriculacion) }}" 
+                                        target="_blank" class="btn btn-success btn-circle shadow-sm" title="Imprimir Matrícula">
+                                        <i class="fas fa-print"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -415,6 +420,10 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
+                                            <a href="/admin/estudiantes/matriculacion/imprimir/${m.idMatriculacion}" 
+                                                target="_blank" class="btn btn-success btn-circle btn-sm shadow-sm mr-2" title="Imprimir Matrícula">
+                                                <i class="fas fa-print"></i>
+                                            </a>
                                             <a href="/admin/estudiantes/matriculacion/edit/${m.idMatriculacion}" 
                                                 class="btn btn-primary btn-circle btn-sm shadow-sm mr-2" title="Editar">
                                                 <i class="fas fa-edit"></i>
