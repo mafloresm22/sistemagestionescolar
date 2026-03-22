@@ -353,6 +353,12 @@ return [
             'classes' => 'bg-white text-black',
         ],
         [
+            'text' => 'Aulas',
+            'url' => 'admin/aulas',
+            'icon' => 'fas fa-door-open',
+            'classes' => 'bg-white text-black',
+        ],
+        [
             'text'    => 'Academicas',
             'route'   => 'admin.periodos.index',
             'icon'    => 'fas fa-book',
