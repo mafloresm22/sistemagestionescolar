@@ -116,7 +116,7 @@ Route::middleware('auth')->prefix('admin/estudiantes')->group(function () {
     Route::get('/matriculacion/buscar-historial', [App\Http\Controllers\MatriculacionController::class, 'buscarHistorial'])->name('admin.matriculacion.buscar-historial');
     Route::get('/matriculacion/create', [App\Http\Controllers\MatriculacionController::class, 'create'])->name('admin.matriculacion.create');
     Route::post('/matriculacion/store', [App\Http\Controllers\MatriculacionController::class, 'store'])->name('admin.matriculacion.store');
-    Route::get('/matriculacion/show/{id}', [App\Http\Controllers\MatriculacionController::class, 'show'])->name('admin.matriculacion.show');
+
     Route::get('/matriculacion/edit/{id}', [App\Http\Controllers\MatriculacionController::class, 'edit'])->name('admin.matriculacion.edit');
     Route::get('/matriculacion/imprimir/{id}', [App\Http\Controllers\MatriculacionController::class, 'imprimir'])->name('admin.matriculacion.imprimir');
     Route::put('/matriculacion/update/{id}', [App\Http\Controllers\MatriculacionController::class, 'update'])->name('admin.matriculacion.update');

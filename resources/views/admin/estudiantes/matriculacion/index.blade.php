@@ -116,10 +116,6 @@
                                     </span>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <a href="{{ route('admin.matriculacion.show', $m->idMatriculacion) }}"
-                                        class="btn btn-info btn-circle shadow-sm" title="Ver Detalles">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
                                     <a href="{{ route('admin.matriculacion.imprimir', $m->idMatriculacion) }}" 
                                         target="_blank" class="btn btn-success btn-circle shadow-sm" title="Imprimir Matrícula">
                                         <i class="fas fa-print"></i>
@@ -420,15 +416,15 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            <a href="/admin/estudiantes/matriculacion/imprimir/${m.idMatriculacion}" 
+                                            <a href="{{ url('admin/estudiantes/matriculacion/imprimir') }}/${m.idMatriculacion}" 
                                                 target="_blank" class="btn btn-success btn-circle btn-sm shadow-sm mr-2" title="Imprimir Matrícula">
                                                 <i class="fas fa-print"></i>
                                             </a>
-                                            <a href="/admin/estudiantes/matriculacion/edit/${m.idMatriculacion}" 
+                                            <a href="{{ url('admin/estudiantes/matriculacion/edit') }}/${m.idMatriculacion}" 
                                                 class="btn btn-primary btn-circle btn-sm shadow-sm mr-2" title="Editar">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <form action="/admin/estudiantes/matriculacion/delete/${m.idMatriculacion}" method="POST" class="formulario-eliminar">
+                                            <form action="{{ url('admin/estudiantes/matriculacion/delete') }}/${m.idMatriculacion}" method="POST" class="formulario-eliminar">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-circle btn-sm shadow-sm" title="Eliminar">
