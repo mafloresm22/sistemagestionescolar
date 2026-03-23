@@ -7,8 +7,8 @@
     {
       "name": "Configuraciones",
       "schemaName": "public",
-      "x": 255.20345281470208,
-      "y": -183.13692110225355
+      "x": 7.886701033460575,
+      "y": -163.86548589852046
     },
     {
       "name": "Gestiones",
@@ -19,8 +19,8 @@
     {
       "name": "Niveles",
       "schemaName": "public",
-      "x": 233.47452859759773,
-      "y": 331.1024075905304
+      "x": 194.93165819013154,
+      "y": 398.55243080359617
     },
     {
       "name": "Turnos",
@@ -93,6 +93,18 @@
       "schemaName": "public",
       "x": 1261.6220737284016,
       "y": 3.159453026656024
+    },
+    {
+      "name": "Aulas",
+      "schemaName": "public",
+      "x": -14.596640037561192,
+      "y": 1032.3487236181252
+    },
+    {
+      "name": "AsignarSeccionesAulas",
+      "schemaName": "public",
+      "x": -14.596640037561192,
+      "y": 1607.7916404517234
     }
   ],
   "tableGroupCollapseStates": [],
@@ -313,6 +325,96 @@
         "seccionID"
       ],
       "secondTableName": "Matriculacion",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idNivel"
+      ],
+      "firstTableName": "Niveles",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "nivelesID"
+      ],
+      "secondTableName": "Matriculacion",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idGrado"
+      ],
+      "firstTableName": "Grados",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "gradosID"
+      ],
+      "secondTableName": "Matriculacion",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idSeccion"
+      ],
+      "firstTableName": "Secciones",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "seccionID"
+      ],
+      "secondTableName": "AsignarSeccionesAulas",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idAula"
+      ],
+      "firstTableName": "Aulas",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "aulaID"
+      ],
+      "secondTableName": "AsignarSeccionesAulas",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idGestion"
+      ],
+      "firstTableName": "Gestiones",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "gestionID"
+      ],
+      "secondTableName": "AsignarSeccionesAulas",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idTurno"
+      ],
+      "firstTableName": "Turnos",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "turnoID"
+      ],
+      "secondTableName": "AsignarSeccionesAulas",
       "secondSchemaName": "public",
       "secondRelation": "*",
       "checkPoints": []

@@ -353,10 +353,23 @@ return [
             'classes' => 'bg-white text-black',
         ],
         [
-            'text' => 'Aulas',
-            'url' => 'admin/aulas',
-            'icon' => 'fas fa-door-open',
+            'text'    => 'Aulas',
+            'icon'    => 'fas fa-door-open',
             'classes' => 'bg-white text-black',
+            'submenu' => [
+                [
+                    'text' => 'Listar Aulas',
+                    'route' => 'admin.aulas.index',
+                    'icon' => 'fas fa-list',
+                    'classes' => 'bg-lightblue text-white',
+                ],
+                [
+                    'text' => 'Asignar Aulas',
+                    'route' => 'admin.aulas.asignar',
+                    'icon' => 'fas fa-user-check',
+                    'classes' => 'bg-lightblue text-white',
+                ],
+            ],
         ],
         [
             'text'    => 'Academicas',
@@ -377,13 +390,13 @@ return [
             'classes' => 'bg-white text-black',
             'submenu' => [
                 [
-                    'text' => 'Listado',
+                    'text' => 'Listar Estudiantes',
                     'url' => 'admin/estudiantes',
                     'icon' => 'fas fa-list',
                     'classes' => 'bg-lightblue text-white',
                 ],
                 [
-                    'text' => 'Buscar',
+                    'text' => 'Buscar Estudiantes',
                     'url' => 'admin/estudiantes/buscar',
                     'icon' => 'fas fa-search',
                     'classes' => 'bg-lightblue text-white',
@@ -400,6 +413,56 @@ return [
             'text'    => 'Padres de Familia',
             'url' => 'admin/padres',
             'icon'    => 'fas fa-user-shield',
+            'classes' => 'bg-white text-black',
+        ],
+        [
+            'text'    => 'Docentes',
+            'icon'    => 'fas fa-user-tie',
+            'classes' => 'bg-white text-black',
+            'submenu' => [
+                [
+                    'text' => 'Asignar Cursos',
+                    'url' => 'admin/docentes/asignarcursos',
+                    'icon' => 'fas fa-list',
+                    'classes' => 'bg-lightblue text-white',
+                ],
+                [
+                    'text' => 'Asistencias',
+                    'url' => 'admin/docentes/asistencias',
+                    'icon' => 'fas fa-user-check',
+                    'classes' => 'bg-lightblue text-white',
+                ],
+            ],
+        ],
+        [
+            'text'    => 'Pagos',
+            'icon'    => 'fas fa-dollar-sign',
+            'classes' => 'bg-white text-black',
+            'submenu' => [
+                [
+                    'text' => 'Realizar Pagos',
+                    'url' => 'admin/pagos/realizarpagos',
+                    'icon' => 'fas fa-list',
+                    'classes' => 'bg-lightblue text-white',
+                ],
+                [
+                    'text' => 'Imprimir Comprobantes',
+                    'url' => 'admin/pagos/imprimircomprobantes',
+                    'icon' => 'fas fa-user-check',
+                    'classes' => 'bg-lightblue text-white',
+                ],
+            ],
+        ],
+        [
+            'text'    => 'Calificaciones',
+            'url' => 'admin/calificaciones',
+            'icon'    => 'fas fa-star',
+            'classes' => 'bg-white text-black',
+        ],
+        [
+            'text'    => 'Reportes',
+            'url' => 'admin/reportes',
+            'icon'    => 'fas fa-file-alt',
             'classes' => 'bg-white text-black',
         ],
     ],

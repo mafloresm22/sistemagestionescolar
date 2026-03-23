@@ -164,3 +164,21 @@ Table Matriculacion {
     observacionesMatriculacion text
     estadoMatriculacion EstadoMatriculacion [default: 'Activo']
 }
+
+Table Aulas{
+    idAula int [pk, increment]
+    nombreAula varchar
+    capacidadAula int
+    estadoAula varchar
+}
+
+Table AsignarSeccionesAulas{
+    idAsignarSeccionAula int [pk, increment]
+    seccionID int [ref: > Secciones.idSeccion]
+    aulaID int [ref: > Aulas.idAula]
+    gestionID int [ref: > Gestiones.idGestion]
+    turnoID int [ref: > Turnos.idTurno]
+    observacionesAsignarSeccionAula text
+    estadoAsignarSeccionAula varchar
+}
+

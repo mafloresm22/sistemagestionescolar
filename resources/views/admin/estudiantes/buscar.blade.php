@@ -85,6 +85,7 @@
             </div>
         </div>
     </div>
+    <div class="mt-4 pb-4"></div>
 </div>
 
 {{-- Incluir el modal de mostrar detalles del estudiante --}}
@@ -96,16 +97,6 @@
     {{-- Plugins CSS --}}
     @section('plugins.Datatables', true)
     <style>
-        /* Corrección de la franja blanca al fondo */
-        html, body {
-            height: 100% !important;
-            background-color: #f4f6f9 !important;
-        }
-
-        .content-wrapper {
-            background-color: #f4f6f9 !important;
-        }
-
         .hover-lift { transition: transform 0.2s; }
         .hover-lift:hover { transform: translateY(-3px); }
         

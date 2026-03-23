@@ -116,10 +116,24 @@
                                     </span>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <a href="{{ route('admin.matriculacion.imprimir', $m->idMatriculacion) }}" 
-                                        target="_blank" class="btn btn-success btn-circle shadow-sm" title="Imprimir Matrícula">
-                                        <i class="fas fa-print"></i>
-                                    </a>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="{{ route('admin.matriculacion.imprimir', $m->idMatriculacion) }}" 
+                                            target="_blank" class="btn btn-success btn-circle shadow-sm mr-2" title="Imprimir Matrícula">
+                                            <i class="fas fa-print"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-primary btn-circle shadow-sm btn-edit-matricula" 
+                                            data-toggle="modal" data-target="#modalEditMatriculacion"
+                                            data-id="{{ $m->idMatriculacion }}"
+                                            data-estudiante="{{ $m->estudiante->nombreEstudiante }} {{ $m->estudiante->apellidoEstudiante }}"
+                                            data-dni="{{ $m->estudiante->dniEstudiante }}"
+                                            data-nivel="{{ $m->nivelesID }}"
+                                            data-grado="{{ $m->gradosID }}"
+                                            data-seccion="{{ $m->seccionID }}"
+                                            data-turno="{{ $m->turnoID }}"
+                                            title="Editar Matrícula">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -128,10 +142,13 @@
             </div>
         </div>
     </div>
+
+    <div class="mt-4 pb-4"></div>
 </div>
 
 @include('admin.estudiantes.matriculacion.create')
 @include('admin.estudiantes.matriculacion.historial')
+@include('admin.estudiantes.matriculacion.edit')
 @stop
 
 @section('plugins.Datatables', true)
@@ -420,10 +437,18 @@
                                                 target="_blank" class="btn btn-success btn-circle btn-sm shadow-sm mr-2" title="Imprimir Matrícula">
                                                 <i class="fas fa-print"></i>
                                             </a>
-                                            <a href="{{ url('admin/estudiantes/matriculacion/edit') }}/${m.idMatriculacion}" 
-                                                class="btn btn-primary btn-circle btn-sm shadow-sm mr-2" title="Editar">
+                                            <button type="button" class="btn btn-primary btn-circle btn-sm shadow-sm mr-2 btn-edit-matricula" 
+                                                data-toggle="modal" data-target="#modalEditMatriculacion"
+                                                data-id="${m.idMatriculacion}"
+                                                data-estudiante="${m.estudiante.nombreEstudiante} ${m.estudiante.apellidoEstudiante}"
+                                                data-dni="${m.estudiante.dniEstudiante}"
+                                                data-nivel="${m.nivelesID}"
+                                                data-grado="${m.gradosID}"
+                                                data-seccion="${m.seccionID}"
+                                                data-turno="${m.turnoID}"
+                                                title="Editar">
                                                 <i class="fas fa-edit"></i>
-                                            </a>
+                                            </button>
                                             <form action="{{ url('admin/estudiantes/matriculacion/delete') }}/${m.idMatriculacion}" method="POST" class="formulario-eliminar">
                                                 @csrf
                                                 @method('DELETE')
@@ -479,6 +504,78 @@
                 }
             });
         });
+        
+        // Lógica para el Modal de Edición (Delegada para que funcione con AJAX)
+        $(document).on('click', '.btn-edit-matricula', function() {
+            let id = $(this).data('id');
+            let estudiante = $(this).data('estudiante');
+            let dni = $(this).data('dni');
+            let nivel = $(this).data('nivel');
+            let grado = $(this).data('grado');
+            let seccion = $(this).data('seccion');
+            let turno = $(this).data('turno');
+
+            $('#editEstudianteNombre').text(estudiante);
+            $('#editEstudianteDNI').text('DNI: ' + dni);
+            $('#editNivelesID').val(nivel);
+            
+            // Actualizar URL del formulario
+            let url = "{{ route('admin.matriculacion.update', ':id') }}";
+            url = url.replace(':id', id);
+            $('#formEditMatriculacion').attr('action', url);
+
+            // Filtrar y seleccionar Grado
+            filterGradosEdit(nivel, grado);
+            // Filtrar y seleccionar Sección
+            filterSeccionesEdit(grado, seccion);
+            
+            $('#editTurnoID').val(turno);
+        });
+
+        // Eventos cascada modal edición
+        $('#editNivelesID').on('change', function() {
+            let nivelId = $(this).val();
+            $('#editGradosID').val('');
+            $('#editSeccionID').val('').prop('disabled', true);
+            filterGradosEdit(nivelId);
+        });
+
+        $('#editGradosID').on('change', function() {
+            let gradoId = $(this).val();
+            $('#editSeccionID').val('').prop('disabled', false);
+            filterSeccionesEdit(gradoId);
+        });
+
+        function filterGradosEdit(nivelId, selectedGrado = null) {
+            let $selectGrado = $('#editGradosID');
+            $selectGrado.find('option').each(function() {
+                if($(this).val() === "") return;
+                if($(this).data('nivel') == nivelId) {
+                    $(this).show().prop('disabled', false);
+                } else {
+                    $(this).hide().prop('disabled', true);
+                }
+            });
+            if (selectedGrado) $selectGrado.val(selectedGrado);
+        }
+
+        function filterSeccionesEdit(gradoId, selectedSeccion = null) {
+            let $selectSeccion = $('#editSeccionID');
+            if (!gradoId) {
+                $selectSeccion.prop('disabled', true);
+                return;
+            }
+            $selectSeccion.prop('disabled', false);
+            $selectSeccion.find('option').each(function() {
+                if($(this).val() === "") return;
+                if($(this).data('grado') == gradoId) {
+                    $(this).show().prop('disabled', false);
+                } else {
+                    $(this).hide().prop('disabled', true);
+                }
+            });
+            if (selectedSeccion) $selectSeccion.val(selectedSeccion);
+        }
     });
 </script>
 

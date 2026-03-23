@@ -94,17 +94,38 @@ class MatriculacionController extends Controller
         ]);
     }
 
-    public function update(Request $request, Matriculacion $matriculacion)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nivelesID' => 'required|exists:niveles,id',
+            'gradosID' => 'required|exists:grados,id',
+            'seccionID' => 'required|exists:secciones,idSeccion',
+            'turnoID' => 'required|exists:turnos,id',
+        ]);
+
+        $matriculacion = Matriculacion::findOrFail($id);
+        $matriculacion->update([
+            'nivelesID' => $request->nivelesID,
+            'gradosID' => $request->gradosID,
+            'seccionID' => $request->seccionID,
+            'turnoID' => $request->turnoID,
+        ]);
+
+        return redirect()->route('admin.matriculacion.index')->with([
+            'mensaje' => 'Matriculación actualizada con éxito',
+            'icono' => 'success'
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Matriculacion $matriculacion)
+    public function destroy($idMatriculacion)
     {
-        //
+        $matriculacion = Matriculacion::findOrFail($idMatriculacion);
+        $matriculacion->delete();
+
+        return redirect()->route('admin.matriculacion.index')->with([
+            'mensaje' => 'Matrícula eliminada permanentemente con éxito',
+            'icono' => 'success'
+        ]);
     }
 
     public function imprimir($idMatriculacion)
