@@ -20,16 +20,9 @@
                         <label class="font-weight-bold"><i class="fas fa-users mr-1 text-info"></i> Capacidad</label>
                         <input type="number" name="capacidadAula" id="editCapacidad" class="form-control form-control-lg border-0 bg-light rounded-pill" required min="1">
                     </div>
-                    <div class="form-group">
-                        <label class="font-weight-bold"><i class="fas fa-toggle-on mr-1 text-info"></i> Estado</label>
-                        <select name="estadoAula" id="editEstado" class="form-control form-control-lg border-0 bg-light rounded-pill" required>
-                            <option value="Disponible">Disponible</option>
-                            <option value="Ocupado">Ocupado</option>
-                        </select>
-                    </div>
                 </div>
                 <div class="modal-footer border-0 p-4">
-                    <button type="button" class="btn btn-light rounded-pill px-4" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger rounded-pill px-4" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-info text-white rounded-pill px-4 shadow-sm">Actualizar</button>
                 </div>
             </form>

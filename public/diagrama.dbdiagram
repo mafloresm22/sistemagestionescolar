@@ -7,8 +7,8 @@
     {
       "name": "Configuraciones",
       "schemaName": "public",
-      "x": 7.886701033460575,
-      "y": -163.86548589852046
+      "x": 110.33943153471427,
+      "y": -59.70520988891255
     },
     {
       "name": "Gestiones",
@@ -31,8 +31,8 @@
     {
       "name": "Periodos",
       "schemaName": "public",
-      "x": 471.9433252847994,
-      "y": -342.8041171740365
+      "x": 596.594147394658,
+      "y": -462.3323027588325
     },
     {
       "name": "Secciones",
@@ -97,14 +97,14 @@
     {
       "name": "Aulas",
       "schemaName": "public",
-      "x": -14.596640037561192,
-      "y": 1032.3487236181252
+      "x": 227.57554583593267,
+      "y": 1836.6026580529665
     },
     {
       "name": "AsignarSeccionesAulas",
       "schemaName": "public",
-      "x": -14.596640037561192,
-      "y": 1607.7916404517234
+      "x": -9.474003512498475,
+      "y": 1563.3954572345135
     }
   ],
   "tableGroupCollapseStates": [],
@@ -402,6 +402,7 @@
       "secondTableName": "AsignarSeccionesAulas",
       "secondSchemaName": "public",
       "secondRelation": "*",
+      "firstEndpointSide": "left",
       "checkPoints": []
     },
     {

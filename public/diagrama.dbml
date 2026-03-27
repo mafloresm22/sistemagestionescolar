@@ -178,6 +178,7 @@ Table AsignarSeccionesAulas{
     aulaID int [ref: > Aulas.idAula]
     gestionID int [ref: > Gestiones.idGestion]
     turnoID int [ref: > Turnos.idTurno]
+    personalID int [ref: > Personal.idPersonal]
     observacionesAsignarSeccionAula text
     estadoAsignarSeccionAula varchar
 }

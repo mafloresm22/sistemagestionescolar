@@ -16,8 +16,17 @@ class AulasController extends Controller
 
     public function store(Request $request)
     {
+        $nombreAula = $request->nombreAula;
+        $existe = Aulas::where('nombreAula', $nombreAula)->exists();
+
+        if ($existe) {
+            return redirect()->back()
+                ->with('mensaje', 'Ya existe un aula registrada con este nombre.')
+                ->with('icono', 'warning');
+        }
+
         $request->validate([
-            'nombreAula' => 'required|string|max:255|unique:aulas,nombreAula',
+            'nombreAula' => 'required|string|max:255',
             'capacidadAula' => 'required|integer|min:1',
         ]);
 
@@ -35,10 +44,18 @@ class AulasController extends Controller
 
     public function update(Request $request, $id)
     {
+        $nombreAula = $request->nombreAula;
+        $existe = Aulas::where('nombreAula', $nombreAula)->where('idAulas', '!=', $id)->exists();
+
+        if ($existe) {
+            return redirect()->back()
+                ->with('mensaje', 'Este nombre de aula ya está siendo usado por otro salón.')
+                ->with('icono', 'warning');
+        }
+
         $request->validate([
             'nombreAula' => 'required|string|max:255',
             'capacidadAula' => 'required|integer|min:1',
-            'estadoAula' => 'required|string',
         ]);
 
         $aula = Aulas::findOrFail($id);
@@ -46,6 +63,18 @@ class AulasController extends Controller
 
         return redirect()->route('admin.aulas.index')->with([
             'mensaje' => 'Aula actualizada con éxito',
+            'icono' => 'success'
+        ]);
+    }
+
+    public function toggleStatus($id)
+    {
+        $aula = Aulas::findOrFail($id);
+        $aula->estadoAula = $aula->estadoAula == 'Disponible' ? 'Ocupado' : 'Disponible';
+        $aula->save();
+
+        return redirect()->route('admin.aulas.index')->with([
+            'mensaje' => 'Estado del aula actualizado correctamente',
             'icono' => 'success'
         ]);
     }

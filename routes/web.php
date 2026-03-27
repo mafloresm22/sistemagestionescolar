@@ -128,6 +128,7 @@ Route::middleware('auth')->prefix('admin/aulas')->group(function () {
     Route::get('/', [App\Http\Controllers\AulasController::class, 'index'])->name('admin.aulas.index');
     Route::post('/create', [App\Http\Controllers\AulasController::class, 'store'])->name('admin.aulas.store');
     Route::put('/update/{id}', [App\Http\Controllers\AulasController::class, 'update'])->name('admin.aulas.update');
+    Route::put('/toggle-status/{id}', [App\Http\Controllers\AulasController::class, 'toggleStatus'])->name('admin.aulas.toggle-status');
     Route::delete('/delete/{id}', [App\Http\Controllers\AulasController::class, 'destroy'])->name('admin.aulas.destroy');
     Route::get('/asignar', [App\Http\Controllers\AulasController::class, 'asignar'])->name('admin.aulas.asignar');
 });
