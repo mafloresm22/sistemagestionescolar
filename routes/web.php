@@ -130,5 +130,11 @@ Route::middleware('auth')->prefix('admin/aulas')->group(function () {
     Route::put('/update/{id}', [App\Http\Controllers\AulasController::class, 'update'])->name('admin.aulas.update');
     Route::put('/toggle-status/{id}', [App\Http\Controllers\AulasController::class, 'toggleStatus'])->name('admin.aulas.toggle-status');
     Route::delete('/delete/{id}', [App\Http\Controllers\AulasController::class, 'destroy'])->name('admin.aulas.destroy');
-    Route::get('/asignar', [App\Http\Controllers\AulasController::class, 'asignar'])->name('admin.aulas.asignar');
+    Route::get('/asignar', [App\Http\Controllers\AsignarSeccionesAulasController::class, 'index'])->name('admin.aulas.asignar');
+
+    // ASIGNAR SECCIONES AULAS
+    Route::get('/asignar-secciones-aulas', [App\Http\Controllers\AsignarSeccionesAulasController::class, 'index'])->name('admin.asignar-secciones-aulas.index');
+    Route::post('/asignar-secciones-aulas/create', [App\Http\Controllers\AsignarSeccionesAulasController::class, 'store'])->name('admin.asignar-secciones-aulas.store');
+    Route::put('/asignar-secciones-aulas/update/{id}', [App\Http\Controllers\AsignarSeccionesAulasController::class, 'update'])->name('admin.asignar-secciones-aulas.update');
+    Route::delete('/asignar-secciones-aulas/delete/{id}', [App\Http\Controllers\AsignarSeccionesAulasController::class, 'destroy'])->name('admin.asignar-secciones-aulas.destroy');
 });

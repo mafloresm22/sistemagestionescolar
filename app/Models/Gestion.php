@@ -20,4 +20,9 @@ class Gestion extends Model
     {
         return $this->hasMany(Matriculacion::class, 'gestionID', 'idGestion');
     }
+
+    public function seccionesAulas()
+    {
+        return $this->hasMany(AsignarSeccionesAulas::class, 'gestionID', 'idGestion');
+    }
 }

@@ -3,9 +3,8 @@
 @section('title', 'Gestión de Aulas')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2 align-items-center animate__animated animate__fadeIn">
-        <div class="col-sm-6">
+    <div class="d-flex justify-content-between align-items-center animate__animated animate__fadeIn">
+        <div>
             <h1 class="font-weight-bold text-dark" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.05);">
                 <i class="fas fa-door-open mr-2 text-primary"></i>Gestión de Aulas
             </h1>
@@ -17,15 +16,14 @@
             </button>
         </div>
     </div>
-</div>
 @stop
 
 @section('content')
-<div class="container-fluid pb-4">
+<div class="container-fluid">
     {{-- Barra de Búsqueda --}}
-    <div class="row mb-4 animate__animated animate__fadeIn">
+    <div class="row mb-4">
         <div class="col-md-12">
-            <div class="card border-0 shadow-sm" style="border-radius: 15px; overflow: hidden;">
+            <div class="card border-0 shadow-sm" style="border-radius: 10px;">
                 <div class="input-group" style="height: 60px;">
                     <div class="input-group-prepend">
                         <span class="input-group-text border-0 bg-white pl-4 pr-3">
@@ -43,47 +41,49 @@
         </div>
     </div>
 
-    <div class="row animate__animated animate__fadeInUp" id="aulasContainer">
+    <div class="row" id="aulasContainer">
         @forelse($aulas as $aula)
         <div class="col-xl-3 col-lg-4 col-md-6 mb-4 aula-item" 
              data-nombre="{{ strtolower($aula->nombreAula) }}" 
              data-capacidad="{{ $aula->capacidadAula }}">
-            <div class="info-box shadow-sm h-100 aula-info-box" style="border-radius: 15px; border: 1px solid rgba(0,0,0,0.05); transition: all 0.3s ease;">
-                <span class="info-box-icon {{ $aula->estadoAula == 'Disponible' ? 'bg-success-gradient' : 'bg-danger-gradient' }} elevation-2 shadow" style="border-radius: 12px; transition: all 0.3s ease;">
-                    <i class="fas fa-door-open text-white"></i>
-                </span>
-
-                <div class="info-box-content p-2">
-                    <span class="info-box-text font-weight-bold text-dark" style="font-size: 1.1rem; letter-spacing: -0.5px;">{{ $aula->nombreAula }}</span>
-                    <span class="info-box-number text-muted font-weight-normal" style="font-size: 0.9rem;">
-                        <i class="fas fa-users mr-1 text-primary small"></i> Capacidad: <span class="text-dark font-weight-bold">{{ $aula->capacidadAula }}</span>
-                    </span>
+            <div class="card shadow-sm h-100 aula-card" style="border-radius: 12px; border: 1px solid #eee;">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-box {{ $aula->estadoAula == 'Disponible' ? 'bg-success' : 'bg-danger' }} rounded-circle mr-3 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                            <i class="fas fa-door-open text-white"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0 font-weight-bold">{{ $aula->nombreAula }}</h5>
+                            <small class="text-muted"><i class="fas fa-users mr-1"></i> Capacidad: {{ $aula->capacidadAula }}</small>
+                        </div>
+                    </div>
                     
-                    <div class="mt-3 d-flex align-items-center">
-                        <span class="badge {{ $aula->estadoAula == 'Disponible' ? 'badge-success-soft' : 'badge-danger-soft' }} px-2 py-1 mr-auto" style="border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <div class="d-flex align-items-center justify-content-between pt-2 border-top">
+                        <span class="badge {{ $aula->estadoAula == 'Disponible' ? 'badge-success' : 'badge-danger' }} badge-pill px-3">
                             {{ $aula->estadoAula }}
                         </span>
                         
-                        <div class="actions d-flex align-items-center">
-                            <form action="{{ route('admin.aulas.toggle-status', $aula->idAulas) }}" method="POST" class="d-inline mr-1">
+                        <div class="btn-group">
+                            <form action="{{ route('admin.aulas.toggle-status', $aula->idAulas) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('PUT')
-                                <button type="submit" class="btn btn-sm btn-warning-soft" title="Cambiar Estado">
-                                    <i class="fas fa-exchange-alt {{ $aula->estadoAula == 'Disponible' ? 'text-warning' : 'text-success' }}"></i>
+                                <button type="submit" class="btn btn-sm btn-light border mr-1" title="Cambiar Estado">
+                                    <i class="fas fa-sync-alt {{ $aula->estadoAula == 'Disponible' ? 'text-warning' : 'text-success' }}"></i>
                                 </button>
                             </form>
 
-                            <button type="button" class="btn btn-sm btn-info-soft btn-edit-aula mr-1" 
+                            <button type="button" class="btn btn-sm btn-light border btn-edit-aula mr-1" 
                                 data-id="{{ $aula->idAulas }}"
                                 data-nombre="{{ $aula->nombreAula }}"
                                 data-capacidad="{{ $aula->capacidadAula }}"
                                 title="Editar">
-                                <i class="fas fa-pencil-alt text-info"></i>
+                                <i class="fas fa-edit text-info"></i>
                             </button>
+
                             <form action="{{ route('admin.aulas.destroy', $aula->idAulas) }}" method="POST" class="d-inline formulario-eliminar">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger-soft" title="Eliminar">
+                                <button type="submit" class="btn btn-sm btn-light border" title="Eliminar">
                                     <i class="fas fa-trash text-danger"></i>
                                 </button>
                             </form>
@@ -118,7 +118,7 @@
     </div>
 
     {{-- Paginación --}}
-    <div id="pagination-controls" class="d-flex justify-content-center align-items-center mt-4 pb-4 animate__animated animate__fadeInUp">
+    <div id="pagination-controls" class="d-flex justify-content-center align-items-center mt-4">
         {{-- Se genera por JS --}}
     </div>
 </div>
@@ -129,130 +129,44 @@
 
 @section('css')
 <style>
-    :root {
-        --primary-soft: #e7f1ff;
-        --success-soft: #e1f7ec;
-        --danger-soft: #ffe5e5;
-        --info-soft: #e0f7fa;
-        --warning-soft: #fff3e0;
+    .aula-card {
+        transition: transform 0.2s ease;
     }
-    
-    .aula-info-box {
-        background: #ffffff;
-        border: 1px solid #f0f0f0;
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        overflow: hidden;
-    }
-    
-    .aula-info-box:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
-        border-color: rgba(0,123,255,0.2) !important;
-    }
-    
-    .aula-info-box:hover .info-box-icon {
-        transform: scale(1.05) rotate(5deg);
+    .aula-card:hover {
+        transform: translateY(-3px);
     }
 
-    .bg-success-gradient {
-        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-    }
-
-    .bg-danger-gradient {
-        background: linear-gradient(135deg, #dc3545 0%, #f86c6b 100%);
-    }
-
-    .badge-success-soft {
-        background-color: var(--success-soft);
-        color: #1e7e34;
-    }
-
-    .badge-danger-soft {
-        background-color: var(--danger-soft);
-        color: #bd2130;
-    }
-
-    .btn-info-soft {
-        background-color: var(--info-soft);
-        border: none;
-        border-radius: 8px;
-        transition: all 0.2s ease;
-    }
-
-    .btn-info-soft:hover {
-        background-color: #b2ebf2;
-        transform: scale(1.1);
-    }
-
-    .btn-danger-soft {
-        background-color: var(--danger-soft);
-        border: none;
-        border-radius: 8px;
-        transition: all 0.2s ease;
-    }
-
-    .btn-danger-soft:hover {
-        background-color: #ffcccc;
-        transform: scale(1.1);
-    }
-
-    .btn-warning-soft {
-        background-color: var(--warning-soft);
-        border: none;
-        border-radius: 8px;
-        transition: all 0.2s ease;
-    }
-
-    .btn-warning-soft:hover {
-        background-color: #ffe0b2;
-        transform: scale(1.1);
-    }
-
-    .btn-primary-custom {
-        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-        border: none;
-        color: white;
-        border-radius: 12px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-primary-custom:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-        color: white;
-    }
-
-    /* --- CUSTOM PAGINATION --- */
+    /* Paginación */
     .pag-btn {
-        width: 40px; 
-        height: 40px; 
-        border-radius: 50%; 
-        border: none; 
-        background: white;
-        color: #007bff; 
-        margin: 0 5px; 
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        font-weight: bold; 
-        transition: 0.3s;
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        background: #fff;
+        color: #007bff;
+        margin: 0 4px;
+        font-weight: 600;
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: all 0.2s;
     }
-    .pag-btn.active { 
-        background: #007bff; 
-        color: white; 
-        transform: scale(1.1); 
+    .pag-btn:hover:not(:disabled) {
+        background: #007bff;
+        color: #fff;
+        border-color: #007bff;
     }
-    .pag-btn:hover:not(.active) { 
-        background: #f1f3f9; 
+    .pag-btn.active {
+        background: #007bff;
+        color: #fff;
+        border-color: #007bff;
+        box-shadow: 0 2px 5px rgba(0,123,255,0.3);
     }
-    .pag-btn:disabled { 
-        opacity: 0.5; 
-        cursor: not-allowed; 
+    .pag-btn:disabled {
+        background: #f8f9fa;
+        color: #6c757d;
+        cursor: not-allowed;
     }
-
-    .animate__animated { animation-duration: 0.8s; }
 </style>
 @stop
 
@@ -268,7 +182,7 @@
         const countSpan = document.getElementById('aulasCount');
         
         let currentPage = 1;
-        const itemsPerPage = 8;
+        const itemsPerPage = 12;
         let filteredItems = [...items];
 
         function renderPagination() {

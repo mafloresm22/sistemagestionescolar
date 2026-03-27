@@ -1,37 +1,36 @@
-{{-- MODAL CREATE ASIGNACION --}}
-<div class="modal fade" id="modalCreateAsignacion" tabindex="-1" role="dialog" aria-hidden="true">
+{{-- MODAL EDIT ASIGNACION --}}
+<div class="modal fade" id="modalEditAsignacion" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
-            <div class="modal-header bg-primary text-white" style="border-radius: 20px 20px 0 0;">
-                <h5 class="modal-title font-weight-bold"><i class="fas fa-plus-circle mr-2"></i>Nueva Asignación de Aula</h5>
+            <div class="modal-header bg-success text-white" style="border-radius: 20px 20px 0 0;">
+                <h5 class="modal-title font-weight-bold"><i class="fas fa-edit mr-2"></i>Editar Asignación</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('admin.asignar-secciones-aulas.store') }}" method="POST">
+            <form id="formEditAsignacion" action="" method="POST">
                 @csrf
+                @method('PUT')
                 <div class="modal-body p-4">
                     <div class="text-center mb-4">
                         <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center shadow-sm border mb-2" style="width: 80px; height: 80px;">
-                            <i class="fas fa-link text-primary fa-2x"></i>
+                            <i class="fas fa-sync-alt text-success fa-2x"></i>
                         </div>
-                        <p class="text-muted small">Vincula un espacio físico con una sección y docente</p>
+                        <p class="text-muted small">Actualiza los datos de vinculación del aula</p>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 form-group mb-3">
-                            <label class="font-weight-bold"><i class="fas fa-door-open mr-1 text-primary"></i> Seleccionar Aula <span class="text-danger">*</span></label>
-                            <select name="aulaID" class="form-control select2 rounded-pill-select" style="width: 100%" required>
-                                <option value="">-- Buscar Aula --</option>
+                            <label class="font-weight-bold"><i class="fas fa-door-open mr-1 text-success"></i> Aula</label>
+                            <select name="aulaID" id="editAulaID" class="form-control select2 edit-rounded-pill-select" style="width: 100%" required>
                                 @foreach($aulas as $aula)
                                     <option value="{{ $aula->idAulas }}">{{ $aula->nombreAula }} (Cap: {{ $aula->capacidadAula }})</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-6 form-group mb-3">
-                            <label class="font-weight-bold"><i class="fas fa-chalkboard mr-1 text-primary"></i> Seleccionar Sección <span class="text-danger">*</span></label>
-                            <select name="seccionID" class="form-control select2 rounded-pill-select" style="width: 100%" required>
-                                <option value="">-- Buscar Sección --</option>
+                            <label class="font-weight-bold"><i class="fas fa-chalkboard mr-1 text-success"></i> Sección</label>
+                            <select name="seccionID" id="editSeccionID" class="form-control select2 edit-rounded-pill-select" style="width: 100%" required>
                                 @foreach($secciones as $seccion)
                                     <option value="{{ $seccion->idSeccion }}">{{ $seccion->nombreSeccion }} - {{ $seccion->grados->nombreGrado }}</option>
                                 @endforeach
@@ -41,25 +40,24 @@
 
                     <div class="row mt-2">
                         <div class="col-md-6 form-group mb-3">
-                            <label class="font-weight-bold"><i class="fas fa-user-tie mr-1 text-primary"></i> Docente Responsable <span class="text-danger">*</span></label>
-                            <select name="personalID" class="form-control select2 rounded-pill-select" style="width: 100%" required>
-                                <option value="">-- buscar Docente --</option>
+                            <label class="font-weight-bold"><i class="fas fa-user-tie mr-1 text-success"></i> Docente Responsable</label>
+                            <select name="personalID" id="editPersonalID" class="form-control select2 edit-rounded-pill-select" style="width: 100%" required>
                                 @foreach($personals as $p)
                                     <option value="{{ $p->idPersonal }}">{{ $p->nombrePersonal }} {{ $p->apellidoPersonal }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-3 form-group mb-3">
-                            <label class="font-weight-bold"><i class="fas fa-calendar-alt mr-1 text-primary"></i> Gestión <span class="text-danger">*</span></label>
-                            <select name="gestionID" class="form-control border-0 bg-light rounded-pill" style="height: calc(1.5em + 1rem + 2px);" required>
+                            <label class="font-weight-bold"><i class="fas fa-calendar-alt mr-1 text-success"></i> Gestión</label>
+                            <select name="gestionID" id="editGestionID" class="form-control border-0 bg-light rounded-pill" style="height: calc(1.5em + 1rem + 2px);" required>
                                 @foreach($gestiones as $g)
                                     <option value="{{ $g->idGestion }}">{{ $g->nombreGestion }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-3 form-group mb-3">
-                            <label class="font-weight-bold"><i class="fas fa-clock mr-1 text-primary"></i> Turno <span class="text-danger">*</span></label>
-                            <select name="turnoID" class="form-control border-0 bg-light rounded-pill" style="height: calc(1.5em + 1rem + 2px);" required>
+                            <label class="font-weight-bold"><i class="fas fa-clock mr-1 text-success"></i> Turno</label>
+                            <select name="turnoID" id="editTurnoID" class="form-control border-0 bg-light rounded-pill" style="height: calc(1.5em + 1rem + 2px);" required>
                                 @foreach($turnos as $t)
                                     <option value="{{ $t->idTurno }}">{{ $t->nombreTurno }}</option>
                                 @endforeach
@@ -68,13 +66,13 @@
                     </div>
 
                     <div class="form-group mb-0">
-                        <label class="font-weight-bold"><i class="fas fa-comment-dots mr-1 text-primary"></i> Observaciones</label>
-                        <textarea name="observacionesAsignarSeccionAula" class="form-control border-0 bg-light" rows="2" style="border-radius: 15px;" placeholder="Notas opcionales..."></textarea>
+                        <label class="font-weight-bold"><i class="fas fa-comment-dots mr-1 text-success"></i> Observaciones</label>
+                        <textarea name="observacionesAsignarSeccionAula" id="editObs" class="form-control border-0 bg-light" rows="2" style="border-radius: 15px;"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer border-0 p-4 pt-0">
                     <button type="button" class="btn btn-danger rounded-pill px-4" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">Guardar Asignación</button>
+                    <button type="submit" class="btn btn-success rounded-pill px-4 shadow-sm text-white">Actualizar Asignación</button>
                 </div>
             </form>
         </div>
@@ -82,8 +80,7 @@
 </div>
 
 <style>
-    /* Estilo para que el Select2 combine con el diseño de Aulas */
-    .rounded-pill-select + .select2-container--bootstrap4 .select2-selection--single {
+    .edit-rounded-pill-select + .select2-container--bootstrap4 .select2-selection--single {
         border-radius: 50px !important;
         background-color: #f8f9fa !important;
         border: none !important;

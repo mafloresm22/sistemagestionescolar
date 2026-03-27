@@ -13,4 +13,9 @@ class Aulas extends Model
         'capacidadAula',
         'estadoAula',
     ];
+
+    public function seccionesAulas()
+    {
+        return $this->hasMany(AsignarSeccionesAulas::class, 'aulaID', 'idAulas');
+    }
 }
