@@ -52,16 +52,21 @@
                         <div class="col-md-3 form-group mb-3">
                             <label class="font-weight-bold"><i class="fas fa-calendar-alt mr-1 text-primary"></i> Gestión <span class="text-danger">*</span></label>
                             <select name="gestionID" class="form-control border-0 bg-light rounded-pill" style="height: calc(1.5em + 1rem + 2px);" required>
-                                @foreach($gestiones as $g)
-                                    <option value="{{ $g->idGestion }}">{{ $g->nombreGestion }}</option>
+                                <option value="">-- Seleccionar --</option>
+                                @foreach($gestions as $g)
+                                    <option value="{{ $g->id }}" 
+                                        {{ trim($g->nombreGestion) == date('Y') ? 'selected' : '' }}>
+                                        {{ $g->nombreGestion }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-3 form-group mb-3">
                             <label class="font-weight-bold"><i class="fas fa-clock mr-1 text-primary"></i> Turno <span class="text-danger">*</span></label>
                             <select name="turnoID" class="form-control border-0 bg-light rounded-pill" style="height: calc(1.5em + 1rem + 2px);" required>
+                                <option value="">-- Seleccionar --</option>
                                 @foreach($turnos as $t)
-                                    <option value="{{ $t->idTurno }}">{{ $t->nombreTurno }}</option>
+                                    <option value="{{ $t->id }}">{{ $t->nombreTurno }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -50,8 +50,8 @@
                         <div class="col-md-3 form-group mb-3">
                             <label class="font-weight-bold"><i class="fas fa-calendar-alt mr-1 text-success"></i> Gestión</label>
                             <select name="gestionID" id="editGestionID" class="form-control border-0 bg-light rounded-pill" style="height: calc(1.5em + 1rem + 2px);" required>
-                                @foreach($gestiones as $g)
-                                    <option value="{{ $g->idGestion }}">{{ $g->nombreGestion }}</option>
+                                @foreach($gestions as $g)
+                                    <option value="{{ $g->id }}">{{ $g->nombreGestion }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -59,7 +59,7 @@
                             <label class="font-weight-bold"><i class="fas fa-clock mr-1 text-success"></i> Turno</label>
                             <select name="turnoID" id="editTurnoID" class="form-control border-0 bg-light rounded-pill" style="height: calc(1.5em + 1rem + 2px);" required>
                                 @foreach($turnos as $t)
-                                    <option value="{{ $t->idTurno }}">{{ $t->nombreTurno }}</option>
+                                    <option value="{{ $t->id }}">{{ $t->nombreTurno }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -30,12 +30,12 @@ class AsignarSeccionesAulas extends Model
 
     public function gestion()
     {
-        return $this->belongsTo(Gestion::class, 'gestionID', 'idGestion');
+        return $this->belongsTo(Gestion::class, 'gestionID', 'id');
     }
 
     public function turno()
     {
-        return $this->belongsTo(Turnos::class, 'turnoID', 'idTurno');
+        return $this->belongsTo(Turnos::class, 'turnoID', 'id');
     }
 
     public function personal()

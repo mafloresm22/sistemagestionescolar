@@ -58,7 +58,7 @@
                                     </div>
                                 </td>
                                 <td class="align-middle">
-                                    <span class="font-weight-bold text-info">{{ $a->seccion->nombreSeccion }}</span><br>
+                                    <span class="font-weight-bold text-info">{{ $a->seccion->nombreSeccion }} - </span>
                                     <small class="text-secondary">{{ $a->seccion->grados->nombreGrado }} - {{ $a->seccion->grados->nivel->nombreNivel }}</small>
                                 </td>
                                 <td class="align-middle">
