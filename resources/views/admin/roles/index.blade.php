@@ -76,6 +76,9 @@
                         </div>
                         
                         <div class="card-action">
+                            <a href="{{ route('admin.roles.permisos', $rol->id) }}" class="btn-permiso" title="Asignar Permisos">
+                                <i class="fas fa-key"></i>
+                            </a>
                             <form action="{{ route('admin.roles.destroy', $rol->id) }}" method="POST" id="formDelete{{ $rol->id }}">
                                 @csrf
                                 @method('DELETE')
@@ -186,6 +189,28 @@
 
     .btn-delete:hover {
         background: #dc3545;
+        border-color: transparent;
+        transform: scale(1.1);
+    }
+
+    .btn-permiso {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        width: 35px;
+        height: 35px;
+        margin-right: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .btn-permiso:hover {
+        background: #f1c40f;
+        color: white;
         border-color: transparent;
         transform: scale(1.1);
     }

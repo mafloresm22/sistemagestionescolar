@@ -78,6 +78,11 @@ Route::post('/admin/roles/create', [App\Http\Controllers\RolesController::class,
 Route::put('/admin/roles/update/{id}', [App\Http\Controllers\RolesController::class, 'update'])->name('admin.roles.update')->middleware('auth');
 Route::delete('/admin/roles/delete/{id}', [App\Http\Controllers\RolesController::class, 'destroy'])->name('admin.roles.destroy')->middleware('auth');
 
+// PERMISOS DE ROLES
+Route::get('/admin/roles/permisos/{id}', [App\Http\Controllers\RolesController::class, 'permisos'])->name('admin.roles.permisos')->middleware('auth');
+Route::post('/admin/roles/permisos/{id}', [App\Http\Controllers\RolesController::class, 'assignPermisos'])->name('admin.roles.assign-permisos')->middleware('auth');
+Route::get('/admin/roles/all-permisos/{id}', [App\Http\Controllers\RolesController::class, 'assignAllPermisos'])->name('admin.roles.all-permisos')->middleware('auth');
+
 //PERSONAL
 
 Route::get('/admin/personal/{tipoPersonal}', [App\Http\Controllers\PersonalController::class, 'index'])->name('admin.personal.index')->middleware('auth');

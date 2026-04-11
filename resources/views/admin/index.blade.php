@@ -63,14 +63,14 @@
         <div class="col-lg-3 col-6 mb-4">
             <div class="small-box premium-small-box bg-gradient-warning-custom animated-card" style="animation-delay: 0.4s;">
                 <div class="inner">
-                    <h3>0</h3>
-                    <p>Niveles</p>
+                    <h3>{{ $rolesCount ?? 0 }}</h3>
+                    <p>Roles</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-layer-group"></i>
                 </div>
                 <div class="shape-bg"></div>
-                <a href="#" class="small-box-footer custom-footer">
+                <a href="{{ route('admin.roles.index') }}" class="small-box-footer custom-footer">
                     Ver más <i class="fas fa-arrow-circle-right ml-1"></i>
                 </a>
             </div>
