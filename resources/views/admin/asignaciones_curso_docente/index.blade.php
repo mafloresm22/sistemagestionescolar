@@ -37,13 +37,10 @@
                 <table class="table table-hover mb-0" id="asignacionesTable">
                     <thead class="bg-light">
                         <tr>
-                            <th class="border-0 px-4">Docente</th>
-                            <th class="border-0 px-4">DNI</th>
+                            <th class="border-0 px-4">Docente y DNI</th>
                             <th class="border-0">Curso</th>
                             <th class="border-0">Gestión</th>
-                            <th class="border-0">Nivel y Grado</th>
-                            <th class="border-0">Sección</th>
-                            <th class="border-0">Turno</th>
+                            <th class="border-0">Aula y Turno</th>
                             <th class="border-0">Fecha</th>
                             <th class="border-0 text-center" style="width: 100px;">Acciones</th>
                         </tr>
@@ -60,16 +57,13 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <div class="font-weight-bold text-dark">{{ $a->docente->nombrePersonal }}
-                                                {{ $a->docente->apellidoPersonal }}</div>
-                                            <small class="text-muted">Docente</small>
+                                            <div class="font-weight-bold text-dark">{{ $a->docente->nombrePersonal }} {{ $a->docente->apellidoPersonal }}</div>
+                                            <small class="text-muted mb-1 d-block">Docente</small>
+                                            <span class="badge badge-light shadow-sm border px-2 py-1" style="border-radius: 6px; color: #495057; font-size: 0.75rem;">
+                                                <i class="fas fa-id-card-alt mr-1 text-primary"></i> {{ $a->docente->dniPersonal }}
+                                            </span>
                                         </div>
                                     </div>
-                                </td>
-                                <td class="px-4 align-middle font-weight-bold text-dark">
-                                    <span class="badge badge-light shadow-sm border px-3 py-2" style="border-radius: 8px; color: #495057;">
-                                        <i class="fas fa-id-card-alt mr-2 text-primary"></i> {{ $a->docente->dniPersonal }}
-                                    </span>
                                 </td>
                                 <td class="align-middle">
                                     <span class="font-weight-bold text-success">{{ $a->curso->nombreCurso }}</span>
@@ -82,32 +76,29 @@
                                 </td>
                                 <td class="align-middle">
                                     <span class="font-weight-bold text-info">{{ $a->nivel->nombreNivel }}</span><br>
-                                    <small class="text-secondary">{{ $a->grado->nombreGrado }}</small>
-                                </td>
-                                <td class="align-middle text-secondary font-weight-600">
-                                    {{ $a->seccion->nombreSeccion ?? 'N/A' }}
-                                </td>
-                                <td class="align-middle">
-                                    @php
-                                        $turnoLabel = mb_strtolower($a->turno->nombreTurno);
-                                        $badgeClass = 'badge-light';
-                                        $customStyle = '';
+                                    <small class="text-secondary">{{ $a->grado->nombreGrado }} - Sec: <span class="font-weight-600">{{ $a->seccion->nombreSeccion ?? 'N/A' }}</span></small>
+                                    <div class="mt-1">
+                                        @php
+                                            $turnoLabel = mb_strtolower($a->turno->nombreTurno);
+                                            $badgeClass = 'badge-light';
+                                            $customStyle = '';
 
-                                        if (str_contains($turnoLabel, 'mañana')) {
-                                            $badgeClass = 'badge-warning';
-                                            $customStyle = 'color: #856404; background-color: #fff3cd; border: 1px solid #ffeeba;';
-                                        } elseif (str_contains($turnoLabel, 'tarde')) {
-                                            $badgeClass = 'btn-orange';
-                                            $customStyle = 'color: #ffffff; background-color: #fd7e14; border: none;';
-                                        } elseif (str_contains($turnoLabel, 'noche')) {
-                                            $badgeClass = 'badge-info';
-                                            $customStyle = 'color: #fff; background-color: #17a2b8; border: none;';
-                                        }
-                                    @endphp
-                                    <span class="badge {{ $badgeClass }} px-2 py-1"
-                                        style="border-radius: 6px; {{ $customStyle }}">
-                                        <i class="fas fa-clock mr-1 small"></i> {{ $a->turno->nombreTurno }}
-                                    </span>
+                                            if (str_contains($turnoLabel, 'mañana')) {
+                                                $badgeClass = 'badge-warning';
+                                                $customStyle = 'color: #856404; background-color: #fff3cd; border: 1px solid #ffeeba;';
+                                            } elseif (str_contains($turnoLabel, 'tarde')) {
+                                                $badgeClass = 'btn-orange';
+                                                $customStyle = 'color: #ffffff; background-color: #fd7e14; border: none;';
+                                            } elseif (str_contains($turnoLabel, 'noche')) {
+                                                $badgeClass = 'badge-info';
+                                                $customStyle = 'color: #fff; background-color: #17a2b8; border: none;';
+                                            }
+                                        @endphp
+                                        <span class="badge {{ $badgeClass }} px-2 py-1"
+                                            style="border-radius: 6px; {{ $customStyle }}">
+                                            <i class="fas fa-clock mr-1 small"></i> {{ $a->turno->nombreTurno }}
+                                        </span>
+                                    </div>
                                 </td>
                                 <td class="align-middle">
                                     <span class="text-secondary small font-weight-bold">
@@ -150,10 +141,8 @@
     <div class="mt-4 pb-4"></div>
 </div>
 
-<!-- Opcional si ya los creaste, si no, puedes descomentarlos luego
 @include('admin.asignaciones_curso_docente.create')
 @include('admin.asignaciones_curso_docente.edit')
--->
 
 @stop
 
@@ -293,6 +282,17 @@
 
 <script>
     $(document).ready(function () {
+        $('#docenteId, #cursoID').select2({
+            dropdownParent: $('#modalCreateAsignacion'),
+            theme: 'bootstrap4',
+            width: '100%'
+        });
+        
+        $('#editDocenteID, #editCursoID').select2({
+            dropdownParent: $('#modalEditAsignacion'),
+            theme: 'bootstrap4',
+            width: '100%'
+        });
         $('#asignacionesTable').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
@@ -431,6 +431,57 @@
             $('#editSeccionID').val('').prop('disabled', false);
             filterSeccionesEdit(gradoId);
         });
+
+        $('#nivelID').on('change', function() {
+            let nivelId = $(this).val();
+            let $selectGrado = $('#gradosID');
+            let $selectSeccion = $('#seccionID');
+            
+            $selectGrado.val('').prop('disabled', false);
+            $selectGrado.find('option').each(function() {
+                if($(this).val() === "") {
+                    $(this).text("Seleccione un grado...");
+                    return;
+                }
+                if($(this).data('nivel') == nivelId) {
+                    $(this).show().prop('disabled', false);
+                } else {
+                    $(this).hide().prop('disabled', true);
+                }
+            });
+            
+            $selectSeccion.val('').prop('disabled', true);
+            $selectSeccion.find('option[value=""]').text("Seleccione un grado primero...");
+        });
+
+        $('#gradosID').on('change', function() {
+            let gradoId = $(this).val();
+            let $selectSeccion = $('#seccionID');
+            
+            $selectSeccion.val('').prop('disabled', false);
+            $selectSeccion.find('option').each(function() {
+                if($(this).val() === "") {
+                    $(this).text("Seleccione una sección...");
+                    return;
+                }
+                if($(this).data('grado') == gradoId) {
+                    $(this).show().prop('disabled', false);
+                } else {
+                    $(this).hide().prop('disabled', true);
+                }
+            });
+        });
+
+        // Al abrir modal de creación, asegurar estado inicial
+        $('#modalCreateAsignacion').on('show.bs.modal', function () {
+            $('#nivelID').val('');
+            
+            $('#gradosID').val('').prop('disabled', true);
+            $('#gradosID').find('option[value=""]').text("Seleccione un nivel primero...");
+            
+            $('#seccionID').val('').prop('disabled', true);
+            $('#seccionID').find('option[value=""]').text("Seleccione un grado primero...");
+        });
     });
 </script>
 
@@ -443,6 +494,21 @@
             confirmButtonColor: '#007bff',
             timer: 4000,
             timerProgressBar: true
+        });
+    </script>
+@endif
+
+@if ($errors->any())
+    <script>
+        Swal.fire({
+            title: 'Faltan datos',
+            html: '<ul>' + 
+                  @foreach ($errors->all() as $error)
+                      '<li>{{ $error }}</li>' +
+                  @endforeach
+                  '</ul>',
+            icon: 'error',
+            confirmButtonColor: '#007bff'
         });
     </script>
 @endif
