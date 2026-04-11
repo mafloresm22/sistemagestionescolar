@@ -138,3 +138,12 @@ Route::middleware('auth')->prefix('admin/aulas')->group(function () {
     Route::put('/asignar-secciones-aulas/update/{id}', [App\Http\Controllers\AsignarSeccionesAulasController::class, 'update'])->name('admin.asignar-secciones-aulas.update');
     Route::delete('/asignar-secciones-aulas/delete/{id}', [App\Http\Controllers\AsignarSeccionesAulasController::class, 'destroy'])->name('admin.asignar-secciones-aulas.destroy');
 });
+
+// CURSOS - DOCENTES
+Route::middleware('auth')->prefix('admin/cursos-docentes')->group(function () {
+    // ASIGNAR CURSOS DOCENTES
+    Route::get('/', [App\Http\Controllers\AsignarCursosDocentesController::class, 'index'])->name('admin.cursos-docentes.index');
+    Route::post('/asignar-cursos-docentes/create', [App\Http\Controllers\AsignarCursosDocentesController::class, 'store'])->name('admin.cursos-docentes.store');
+    Route::put('/asignar-cursos-docentes/update/{idAsignarCursoDocente}', [App\Http\Controllers\AsignarCursosDocentesController::class, 'update'])->name('admin.cursos-docentes.update');
+    Route::delete('/asignar-cursos-docentes/delete/{idAsignarCursoDocente}', [App\Http\Controllers\AsignarCursosDocentesController::class, 'destroy'])->name('admin.cursos-docentes.destroy');
+});

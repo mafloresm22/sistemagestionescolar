@@ -26,4 +26,9 @@ class Grados extends Model
     {
         return $this->hasMany(Matriculacion::class, 'gradosID', 'id');
     }
+
+    public function cursosAsignados()
+    {
+        return $this->hasMany(AsignarCursosDocentes::class, 'gradoID', 'id');
+    }
 }

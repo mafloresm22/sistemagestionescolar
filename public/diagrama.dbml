@@ -183,3 +183,16 @@ Table AsignarSeccionesAulas{
     estadoAsignarSeccionAula varchar
 }
 
+Table AsignarCursosDocentes{
+    idAsignarCursoDocente int [pk, increment]
+    docenteId int [ref: > Personal.idPersonal]
+    cursoID int [ref: > Cursos.idCurso]
+    nivelID int [ref: > Niveles.idNivel]
+    gestionID int [ref: > Gestiones.idGestion]
+    gradoID int [ref: > Grados.idGrado]
+    turnoID int [ref: > Turnos.idTurno]
+    seccionID int [ref: > Secciones.idSeccion]
+    fechaAsignarCursoDocente date
+    estadoAsignarCursoDocente varchar
+}
+

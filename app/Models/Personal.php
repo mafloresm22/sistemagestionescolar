@@ -37,4 +37,9 @@ class Personal extends Model
     {
         return $this->hasMany(AsignarSeccionesAulas::class, 'personalID', 'idPersonal');
     }
+
+    public function cursosAsignados()
+    {
+        return $this->hasMany(AsignarCursosDocentes::class, 'docenteId', 'idPersonal');
+    }
 }

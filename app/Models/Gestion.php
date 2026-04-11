@@ -25,4 +25,9 @@ class Gestion extends Model
     {
         return $this->hasMany(AsignarSeccionesAulas::class, 'gestionID', 'idGestion');
     }
+
+    public function cursosAsignados()
+    {
+        return $this->hasMany(AsignarCursosDocentes::class,'gestionID', 'idGestion');
+    }
 }

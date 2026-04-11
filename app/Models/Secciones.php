@@ -27,4 +27,9 @@ class Secciones extends Model
     {
         return $this->hasMany(AsignarSeccionesAulas::class, 'seccionID', 'idSeccion');
     }
+
+    public function cursosAsignados()
+    {
+        return $this->hasMany(AsignarCursosDocentes::class, 'seccionID', 'idSeccion');
+    }
 }

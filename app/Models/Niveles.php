@@ -20,4 +20,9 @@ class Niveles extends Model
     {
         return $this->hasMany(Matriculacion::class, 'nivelesID', 'id');
     }
+
+    public function cursosAsignados()
+    {
+        return $this->hasMany(AsignarCursosDocentes::class, 'nivelID', 'id');
+    }
 }

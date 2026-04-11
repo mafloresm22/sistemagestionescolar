@@ -26,4 +26,9 @@ class Cursos extends Model
     {
         return $this->belongsTo(Niveles::class, 'nivelID');
     }
+
+    public function cursosAsignados()
+    {
+        return $this->hasMany(AsignarCursosDocentes::class, 'cursoID', 'idCurso');
+    }
 }

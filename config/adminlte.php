@@ -422,7 +422,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Asignar Cursos',
-                    'url' => 'admin/docentes/asignarcursos',
+                    'route' => 'admin.cursos-docentes.index',
                     'icon' => 'fas fa-list',
                     'classes' => 'bg-lightblue text-white',
                 ],

@@ -20,4 +20,9 @@ class Turnos extends Model
     {
         return $this->hasMany(AsignarSeccionesAulas::class, 'turnoID', 'idTurno');
     }
+
+    public function cursosAsignados()
+    {
+        return $this->hasMany(AsignarCursosDocentes::class, 'turnoID', 'idTurno');
+    }
 }
