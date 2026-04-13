@@ -196,3 +196,13 @@ Table AsignarCursosDocentes{
     estadoAsignarCursoDocente varchar
 }
 
+Table Pagos{
+    idPago int [pk, increment]
+    montoPago decimal
+    metodoPago varchar
+    fechaPago date
+    observacionesPago text
+    matriculacionID int [ref: > Matriculacion.idMatriculacion]
+    estadoPago varchar
+}
+

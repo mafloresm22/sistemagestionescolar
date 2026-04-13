@@ -49,4 +49,9 @@ class Matriculacion extends Model
     {
         return $this->belongsTo(Grados::class, 'gradosID', 'id');
     }
+
+    public function pagos()
+    {
+        return $this->hasMany(Pagos::class, 'matriculacionID', 'idMatriculacion');
+    }
 }

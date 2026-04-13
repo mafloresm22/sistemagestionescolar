@@ -455,27 +455,12 @@ return [
                 ],
             ],
         ],
-        [
+       [
             'text'    => 'Pagos',
             'icon'    => 'fas fa-dollar-sign',
             'classes' => 'bg-white text-black',
-            'can' => 'admin.pagos.index',
-            'submenu' => [
-                [
-                    'text' => 'Realizar Pagos',
-                    'url' => 'admin/pagos/realizarpagos',
-                    'icon' => 'fas fa-list',
-                    'classes' => 'bg-lightblue text-white',
-                    'can' => 'admin.pagos.realizar',
-                ],
-                [
-                    'text' => 'Imprimir Comprobantes',
-                    'url' => 'admin/pagos/imprimircomprobantes',
-                    'icon' => 'fas fa-user-check',
-                    'classes' => 'bg-lightblue text-white',
-                    'can' => 'admin.pagos.imprimir',
-                ],
-            ],
+            'route'   => 'admin.pagos.index', 
+            'can'     => 'admin.pagos.index', 
         ],
         [
             'text'    => 'Calificaciones',
