@@ -1,190 +1,231 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión de Pagos')
+@section('title', 'Control de Pagos')
 
 @section('content_header')
-<div class="d-flex justify-content-between align-items-center animate__animated animate__fadeIn">
-    <div>
-        <h1 class="text-dark font-weight-bold">
-            <i class="fas fa-hand-holding-usd mr-2 text-success"></i>
-            Control de Pagos
-        </h1>
-        @if(isset($matriculacion))
-            <p class="text-muted mb-0">Gestión de recibos para <strong>{{ $matriculacion->estudiante->nombreEstudiante }}</strong></p>
-        @else
-            <p class="text-muted mb-0">Selecciona un alumno para realizar un cobro o ver su historial.</p>
-        @endif
-    </div>
-    <div class="d-flex align-items-center">
-        @if(!isset($matriculacion))
-            {{-- Buscador dinámico estilo Personal --}}
-            <div class="input-group mr-3 shadow-sm" style="width: 300px;">
-                <input type="text" id="customSearch" class="form-control border-0" placeholder="Buscar por nombre o DNI..." style="border-radius: 10px 0 0 10px;">
-                <div class="input-group-append">
-                    <span class="input-group-text bg-white border-0" style="border-radius: 0 10px 10px 0;">
-                        <i class="fas fa-search text-muted"></i>
-                    </span>
-                </div>
+<div class="container-fluid py-4">
+    <div class="header-glass-card animate__animated animate__fadeInDown">
+        <div class="header-overlay"></div>
+        <div class="header-content d-flex flex-column flex-md-row align-items-md-center justify-content-between p-4 px-md-5">
+            <div>
+                <h1 class="header-title mb-1 text-white" style="font-size: 1.6rem;">
+                    <i class="fas fa-coins mr-3 text-warning-gradient animate__animated animate__bounceIn"></i>Gestión de Pagos
+                </h1>
+                <p class="text-white-50 mb-0 font-italic" style="font-size: 0.85rem;">
+                    Supervisa y administra el flujo financiero de manera intuitiva y profesional.
+                </p>
             </div>
-        @endif
-        <a href="{{ route('admin.matriculacion.index') }}" class="btn btn-outline-secondary rounded-pill px-4 mr-2 shadow-sm hover-lift">
-            <i class="fas fa-arrow-left mr-2"></i> {{ isset($matriculacion) ? 'Volver' : 'Registrar Matrícula' }}
-        </a>
-        @if(isset($matriculacion))
-            <button class="btn btn-success-custom px-4 shadow-sm hover-lift" data-toggle="modal" data-target="#modalCreatePago">
-                <i class="fas fa-plus-circle mr-2"></i> Nuevo Pago
-            </button>
-        @endif
+            <div class="header-actions mt-3 mt-md-0 d-flex gap-3">
+                <div class="premium-search-dark">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="customSearch" placeholder="Buscar alumno...">
+                </div>
+                <a href="{{ route('admin.matriculacion.index') }}" class="btn-create-vibrant">
+                    <i class="fas fa-plus"></i> <span>Nueva Matrícula</span>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 @stop
 
 @section('content')
 <div class="container-fluid">
-    @if(isset($matriculacion))
-        {{-- VISTA: DETALLE DE PAGOS DE UN ALUMNO --}}
-        <div class="row">
-            {{-- Carnet Lateral del Alumno --}}
-            <div class="col-md-4">
-                <div class="personal-card animate__animated animate__zoomIn sticky-top" style="top: 20px;">
-                    <div class="card-header-carnet bg-gradient-blue text-center">
-                        <div class="avatar-container shadow">
-                            @php
-                                $initials = strtoupper(substr($matriculacion->estudiante->nombreEstudiante, 0, 1) . substr($matriculacion->estudiante->apellidoEstudiante, 0, 1));
-                            @endphp
-                            <div class="avatar-pseudo shadow-sm" style="background: #4e73df;">{{ $initials }}</div>
-                        </div>
-                    </div>
-                    <div class="card-body-carnet mt-4">
-                        <h5 class="person-name">{{ $matriculacion->estudiante->nombreEstudiante }} {{ $matriculacion->estudiante->apellidoEstudiante }}</h5>
-                        <p class="person-title"><i class="fas fa-graduation-cap mr-1"></i> {{ $matriculacion->grado->nombreGrado }}</p>
-                        <div class="info-grid">
-                            <div class="info-item"><span class="label">DNI</span><span class="value">{{ $matriculacion->estudiante->dniEstudiante }}</span></div>
-                            <div class="info-item"><span class="label">GESTIÓN</span><span class="value">{{ $matriculacion->gestion->nombreGestion }}</span></div>
-                        </div>
-                        <hr class="my-3">
-                        <div class="text-left px-2">
-                            <p class="mb-1"><strong>Pagado:</strong> <span class="text-success float-right">S/. {{ number_format($pagos->where('estadoPago', 'Pagado')->sum('montoPago'), 2) }}</span></p>
-                            <p class="mb-0"><strong>Pendiente:</strong> <span class="text-warning float-right">S/. {{ number_format($pagos->where('estadoPago', 'Pendiente')->sum('montoPago'), 2) }}</span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            {{-- Historial de Pagos --}}
-            <div class="col-md-8">
-                <div class="card shadow-sm border-0 rounded-xl overflow-hidden">
-                    <div class="card-header bg-white py-3 border-0">
-                        <h3 class="card-title font-weight-bold"><i class="fas fa-history mr-2 text-secondary"></i> Historial de Recibos</h3>
-                    </div>
-                    <div class="card-body p-0">
-                        <table class="table table-hover mb-0">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th class="border-0 px-4">Fecha</th>
-                                    <th class="border-0">Monto</th>
-                                    <th class="border-0">Estado</th>
-                                    <th class="border-0 text-center">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($pagos as $p)
-                                    <tr>
-                                        <td class="px-4 align-middle">{{ \Carbon\Carbon::parse($p->fechaPago)->format('d/m/Y') }}</td>
-                                        <td class="align-middle font-weight-bold text-success">S/. {{ number_format($p->montoPago, 2) }}</td>
-                                        <td class="align-middle">
-                                            <span class="badge badge-pill badge-{{ $p->estadoPago == 'Pagado' ? 'success' : 'warning' }} px-3 py-1">{{ strtoupper($p->estadoPago) }}</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <div class="btn-group shadow-sm">
-                                                <a href="{{ route('admin.pagos.imprimir', $p->idPago) }}" target="_blank" class="btn btn-light btn-sm text-success"><i class="fas fa-print"></i></a>
-                                                <button class="btn btn-light btn-sm text-primary"><i class="fas fa-edit"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr><td colspan="4" class="text-center py-5 text-muted">No hay pagos registrados.</td></tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @else
-        {{-- VISTA: BUSCADOR DE ALUMNOS (ESTILO PERSONAL) --}}
-        <div class="row pt-3" id="pago-container">
-            @foreach($matriculaciones as $m)
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-4 pago-item" 
-                     data-name="{{ strtolower($m->estudiante->nombreEstudiante . ' ' . $m->estudiante->apellidoEstudiante) }}" 
-                     data-dni="{{ $m->estudiante->dniEstudiante }}">
-                    <div class="personal-card animate__animated animate__zoomIn">
-                        <div class="card-header-carnet bg-premium-orange">
-                            <div class="avatar-container shadow">
-                                @php
-                                    $initials = strtoupper(substr($m->estudiante->nombreEstudiante, 0, 1) . substr($m->estudiante->apellidoEstudiante, 0, 1));
-                                    $bgColor = '#f6c23e';
-                                @endphp
-                                <div class="avatar-pseudo shadow-sm" style="background: {{ $bgColor }};">{{ $initials }}</div>
+    
+
+
+    <div class="row" id="pago-container">
+        @php
+            $colors = ['blue', 'purple', 'emerald', 'orange', 'rose', 'indigo'];
+            $i = 0;
+        @endphp
+        @foreach($matriculaciones as $estudianteID => $enrollments)
+            @php
+                $first = $enrollments->first();
+                $estudiante = $first->estudiante;
+                $count = $enrollments->count();
+                $c = $colors[$i % count($colors)];
+                $i++;
+            @endphp
+            <div class="col-12 col-md-6 col-lg-4 mb-4 pago-item animate__animated animate__fadeInUp">
+                <div class="pago-premium-card card-{{ $c }}" 
+                     data-name="{{ strtolower($estudiante->nombreEstudiante . ' ' . $estudiante->apellidoEstudiante) }}" 
+                     data-dni="{{ $estudiante->dniEstudiante }}">
+                    
+                    <div class="card-glow"></div>
+                    
+                    <div class="card-inner p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <div class="avatar-vibrant avatar-{{ $c }} shadow">
+                                {{ substr($estudiante->nombreEstudiante, 0, 1) }}{{ substr($estudiante->apellidoEstudiante, 0, 1) }}
                             </div>
+                            <span class="count-badge count-{{ $c }}">
+                                <i class="fas fa-copy mr-1"></i> {{ $count }}
+                            </span>
                         </div>
-                        <div class="card-body-carnet">
-                            <h5 class="person-name">{{ $m->estudiante->nombreEstudiante }} {{ $m->estudiante->apellidoEstudiante }}</h5>
-                            <p class="person-title" style="font-size: 0.75rem;"><i class="fas fa-school mr-1"></i> {{ $m->grado->nombreGrado }} - {{ $m->seccion->nombreSeccion ?? 'S/S' }}</p>
-                            <div class="info-grid">
-                                <div class="info-item"><span class="label">DNI</span><span class="value">{{ $m->estudiante->dniEstudiante }}</span></div>
-                                <div class="info-item"><span class="label">TURN.</span><span class="value">{{ $m->turno->nombreTurno }}</span></div>
-                            </div>
-                        </div>
-                        <div class="card-footer-carnet bg-light border-top text-center py-3">
-                            <a href="{{ route('admin.pagos.index', ['idMatriculacion' => $m->idMatriculacion]) }}" 
-                               class="btn btn-warning rounded-pill px-4 shadow-sm font-weight-bold text-white hover-lift">
-                                <i class="fas fa-cash-register mr-1"></i> GESTIONAR PAGOS
+
+                        <h5 class="font-weight-bold text-dark mb-1 name-accent">{{ $estudiante->nombreEstudiante }} {{ $estudiante->apellidoEstudiante }}</h5>
+                        <p class="text-muted small mb-4">
+                            <span class="dni-label"><i class="fas fa-fingerprint mr-1"></i> DNI:</span> 
+                            <span class="dni-value">{{ $estudiante->dniEstudiante }}</span>
+                        </p>
+
+                        <div class="card-footer-custom pt-3 mt-2 border-top">
+                            <a href="{{ route('admin.pagos.show', ['idEstudiante' => $estudianteID]) }}" class="btn-action-{{ $c }} btn-block text-center py-2 shadow-sm">
+                                <b>Ver Historial de Pagos</b> <i class="fas fa-chevron-right ml-2"></i>
                             </a>
                         </div>
                     </div>
                 </div>
-            @endforeach
+            </div>
+        @endforeach
+    </div>
+
+    {{-- EMPTY STATE --}}
+    <div id="emptyState" class="text-center py-5 d-none">
+        <div class="pulse-animation">
+            <i class="fas fa-search text-muted display-1"></i>
         </div>
-    @endif
+        <h4 class="mt-4 text-muted">No encontramos coincidencias</h4>
+    </div>
 </div>
 
 <style>
-/* HEREDADO DE PERSONAL.INDEX */
-.personal-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all 0.3s; border: 1px solid rgba(0,0,0,0.05); }
-.personal-card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
-.card-header-carnet { height: 95px; position: relative; display: flex; justify-content: center; }
-.bg-gradient-blue { background: linear-gradient(135deg, #4e73df 0%, #224abe 100%); }
-.bg-premium-orange { background: linear-gradient(135deg, #fd7e14 0%, #fb8c00 100%); }
-.avatar-container { position: absolute; bottom: -35px; width: 80px; height: 80px; border-radius: 50%; background: white; padding: 4px; }
-.avatar-pseudo { width: 100%; height: 100%; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.5rem; }
-.card-body-carnet { padding: 45px 20px 20px 20px; text-align: center; }
-.person-name { font-weight: 800; color: #2e3b4e; font-size: 1.1rem; }
-.person-title { color: #858796; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 15px; }
-.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8f9fc; padding: 10px; border-radius: 12px; text-align: left; }
-.info-item .label { font-size: 0.6rem; font-weight: 700; color: #b7b9cc; text-transform: uppercase; }
-.info-item .value { font-size: 0.8rem; color: #4e73df; }
-.btn-success-custom { background: linear-gradient(135deg, #28a745 0%, #218838 100%); border: none; color: white; border-radius: 12px; font-weight: 600; }
-.hover-lift { transition: transform 0.2s; }
-.hover-lift:hover { transform: translateY(-3px); }
-.rounded-xl { border-radius: 15px !important; }
-</style>
-@stop
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
 
-@section('js')
+:root {
+    --blue: #4e73df; --blue-soft: #eaeffd;
+    --purple: #6f42c1; --purple-soft: #f1ecf9;
+    --emerald: #1cc88a; --emerald-soft: #e8f9f3;
+    --orange: #f6c23e; --orange-soft: #fef9ec;
+    --rose: #e74a3b; --rose-soft: #fdf1f0;
+    --indigo: #4640de; --indigo-soft: #ececfc;
+    --dark: #0a192f;
+}
+
+body, .content-wrapper { background-color: #f7f9fc !important; font-family: 'Outfit', sans-serif !important; }
+
+/* HEADER GLASS CARD */
+.header-glass-card {
+    background: linear-gradient(135deg, #0d49a2 0%, #408fea 100%);
+    border-radius: 30px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(10,25,47,0.2);
+}
+.header-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at top right, rgba(78,115,223,0.2), transparent);
+    z-index: 1;
+}
+.header-content { position: relative; z-index: 2; }
+.text-warning-gradient { background: linear-gradient(to bottom, #f6c23e, #f4b619); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* SEARCH & BUTTONS */
+.premium-search-dark {
+    background: rgba(255,255,255,0.1);
+    border-radius: 50px;
+    padding: 8px 20px;
+    display: flex; align-items: center;
+    border: 1px solid rgba(255,255,255,0.1);
+    width: 280px;
+    transition: all 0.3s;
+}
+.premium-search-dark:focus-within { background: rgba(255,255,255,0.2); border-color: white; transform: scale(1.02); }
+.premium-search-dark i { color: rgba(255,255,255,0.6); margin-right: 12px; }
+.premium-search-dark input { background: transparent; border: none; outline: none; color: white; width: 100%; font-size: 0.9rem; }
+.premium-search-dark input::placeholder { color: rgba(255,255,255,0.4); }
+
+.btn-create-vibrant {
+    background: white; color: var(--dark);
+    padding: 10px 25px; border-radius: 50px;
+    font-weight: 700; display: flex; align-items: center; gap: 10px;
+    transition: all 0.3s;
+}
+.btn-create-vibrant:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); text-decoration: none; background: #f8f9fa; }
+
+/* SHELF */
+.summary-shelf { background: white; border-radius: 20px; }
+.summary-item { display: flex; align-items: center; gap: 15px; }
+.summary-icon { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+.bg-soft-blue { background: var(--blue-soft); color: var(--blue); }
+.bg-soft-green { background: var(--emerald-soft); color: var(--emerald); }
+.summary-label { font-size: 0.75rem; color: #858796; text-transform: uppercase; font-weight: 700; }
+.summary-value { font-size: 1.3rem; font-weight: 800; line-height: 1; }
+.summary-divider { width: 1px; height: 35px; background: #eee; }
+
+/* PREMIUM CARDS COLORS */
+.pago-premium-card {
+    background: white; border-radius: 28px; position: relative; overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #f1f3f9;
+}
+.pago-premium-card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); }
+.card-glow { 
+    position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; 
+    background: radial-gradient(circle, rgba(0,0,0,0.01) 0%, transparent 70%); z-index: 0;
+}
+.card-inner { position: relative; z-index: 2; }
+
+.avatar-vibrant {
+    width: 50px; height: 50px; border-radius: 18px; display: flex; align-items: center; 
+    justify-content: center; font-weight: 800; font-size: 1.1rem; border: 3px solid white;
+}
+.count-badge { padding: 3px 10px; border-radius: 50px; font-weight: 800; font-size: 0.65rem; }
+
+/* VARIATIONS */
+.avatar-blue { background: linear-gradient(45deg, #4e73df, #224abe); color: white; }
+.btn-action-blue { background: var(--blue-soft); color: var(--blue); border-radius: 12px; }
+.count-blue { background: var(--blue-soft); color: var(--blue); }
+
+.avatar-purple { background: linear-gradient(45deg, #6f42c1, #5a32a3); color: white; }
+.btn-action-purple { background: var(--purple-soft); color: var(--purple); border-radius: 12px; }
+.count-purple { background: var(--purple-soft); color: var(--purple); }
+
+.avatar-emerald { background: linear-gradient(45deg, #1cc88a, #13855c); color: white; }
+.btn-action-emerald { background: var(--emerald-soft); color: var(--emerald); border-radius: 12px; }
+.count-emerald { background: var(--emerald-soft); color: var(--emerald); }
+
+.avatar-orange { background: linear-gradient(45deg, #f6c23e, #dda20a); color: white; }
+.btn-action-orange { background: var(--orange-soft); color: var(--orange); border-radius: 12px; }
+.count-orange { background: var(--orange-soft); color: var(--orange); }
+
+.avatar-rose { background: linear-gradient(45deg, #e74a3b, #be2617); color: white; }
+.btn-action-rose { background: var(--rose-soft); color: var(--rose); border-radius: 12px; }
+.count-rose { background: var(--rose-soft); color: var(--rose); }
+
+.avatar-indigo { background: linear-gradient(45deg, #4640de, #2d28a3); color: white; }
+.btn-action-indigo { background: var(--indigo-soft); color: var(--indigo); border-radius: 12px; }
+.count-indigo { background: var(--indigo-soft); color: var(--indigo); }
+
+.dni-label { color: #b7b9cc; font-size: 0.8rem; }
+.dni-value { color: #5a5c69; font-weight: 600; font-size: 0.8rem; }
+.name-accent { letter-spacing: -0.5px; font-size: 1rem !important; }
+
+.btn-action-blue:hover, .btn-action-purple:hover, .btn-action-emerald:hover, 
+.btn-action-orange:hover, .btn-action-rose:hover, .btn-action-indigo:hover {
+    filter: brightness(0.95); text-decoration: none; transform: scale(1.02);
+}
+
+.pulse-animation { animation: pulse 2s infinite; }
+@keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+</style>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('customSearch');
-        if(searchInput) {
-            searchInput.addEventListener('input', function(e) {
-                const term = e.target.value.toLowerCase();
-                document.querySelectorAll('.pago-item').forEach(item => {
-                    const name = item.getAttribute('data-name');
-                    const dni = item.getAttribute('data-dni');
-                    item.style.display = (name.includes(term) || dni.includes(term)) ? 'block' : 'none';
-                });
-            });
+document.getElementById('customSearch').addEventListener('input', function(e) {
+    const term = e.target.value.toLowerCase();
+    let found = false;
+    document.querySelectorAll('.pago-item').forEach(item => {
+        const name = item.querySelector('.pago-premium-card').getAttribute('data-name');
+        const dni = item.querySelector('.pago-premium-card').getAttribute('data-dni');
+        if (name.includes(term) || dni.includes(term)) {
+            item.classList.remove('d-none');
+            found = true;
+        } else {
+            item.classList.add('d-none');
         }
     });
+    document.getElementById('emptyState').classList.toggle('d-none', found);
+});
 </script>
 @stop

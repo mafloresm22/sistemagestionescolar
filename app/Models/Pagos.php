@@ -12,6 +12,7 @@ class Pagos extends Model
         'montoPago',
         'metodoPago',
         'fechaPago',
+        'fotoPago',
         'observacionesPago',
         'estadoPago',
         'matriculacionID',

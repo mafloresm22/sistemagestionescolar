@@ -311,7 +311,7 @@ return [
             'can' => 'admin.configuraciones.index',
         ],
         [
-            'text'    => 'Personal Administrativo',
+            'text'    => 'Personal',
             'icon'    => 'fas fa-user-tie',
             'classes' => 'bg-white text-black',
             'can' => 'admin.personal.index',

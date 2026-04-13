@@ -13,6 +13,7 @@ return new class extends Migration
             $table->decimal('montoPago', 10, 2);
             $table->string('metodoPago');
             $table->date('fechaPago');
+            $table->string('fotoPago')->nullable();
             $table->text('observacionesPago')->nullable();
             $table->enum('estadoPago', ['Pagado', 'Pendiente', 'Anulado'])->default('Pendiente');
             $table->foreignId('matriculacionID')->constrained('matriculacions', 'idMatriculacion');

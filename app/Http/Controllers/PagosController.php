@@ -6,63 +6,80 @@ use App\Models\Pagos;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Matriculacion;
+use App\Models\Estudiante;
 
 class PagosController extends Controller
 {
     public function index(Request $request)
     {
-        $idMatriculacion = $request->get('idMatriculacion');
-        if ($idMatriculacion) {
-            $matriculacion = Matriculacion::with(['estudiante', 'gestion', 'nivel', 'grado'])->findOrFail($idMatriculacion);
-            $pagos = Pagos::where('matriculacionID', $idMatriculacion)->orderBy('fechaPago', 'desc')->get();
-        
-            return view('admin.pagos.index', compact('matriculacion', 'pagos'));
-        } else {
-            $matriculaciones = Matriculacion::with(['estudiante', 'gestion', 'nivel', 'grado', 'turno'])->get();
-            return view('admin.pagos.index', compact('matriculaciones'));
-        }
+        $matriculaciones = Matriculacion::with(['estudiante', 'gestion', 'nivel', 'grado', 'turno', 'pagos'])->get();
+        $gestiones = $matriculaciones->pluck('gestion.nombreGestion')->unique();
+        $rangoGestiones = $gestiones->count() > 1 
+            ? $gestiones->min() . ' - ' . $gestiones->max() 
+            : ($gestiones->first() ?? 'Sin Gestión');
+
+        $matriculaciones = $matriculaciones->groupBy('estudianteID');
+ 
+        return view('admin.pagos.index', compact('matriculaciones', 'rangoGestiones'));
     }
 
-    public function create()
+    public function show(Request $request)
     {
-        //
+        $idEstudiante = $request->get('idEstudiante');
+        if (!$idEstudiante) {
+            return redirect()->route('admin.pagos.index')->with('error', 'Seleccione un estudiante');
+        }
+
+        $estudiante = Estudiante::findOrFail($idEstudiante);
+        // Obtenemos todas las matrículas del estudiante con sus respectivos pagos
+        $matriculaciones = Matriculacion::with(['gestion', 'nivel', 'grado', 'turno', 'pagos', 'seccion'])
+            ->where('estudianteID', $idEstudiante)
+            ->latest()
+            ->get();
+    
+        return view('admin.pagos.show', compact('estudiante', 'matriculaciones'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'montoPago' => 'required|numeric',
+            'metodoPago' => 'required|string',
+            'fechaPago' => 'required|date',
+            'matriculacionID' => 'required|exists:matriculacions,idMatriculacion',
+            'estadoPago' => 'required|in:Pagado,Pendiente',
+            'observacionesPago' => 'nullable|string',
+            'fotoPago' => 'nullable|image|max:2048'
+        ]);
+
+        $nombreFoto = 'Ninguna';
+
+        if ($request->metodoPago !== 'Efectivo') {
+            if ($request->hasFile('fotoPago')) {
+                $foto = $request->file('fotoPago');
+                $nombreFoto = 'vouch_' . time() . '_' . $foto->getClientOriginalName();
+                $foto->move(public_path('storage/pagos'), $nombreFoto);
+            }
+        }
+
+        Pagos::create([
+            'montoPago' => $request->montoPago,
+            'metodoPago' => $request->metodoPago,
+            'fechaPago' => $request->fechaPago,
+            'fotoPago' => $nombreFoto,
+            'observacionesPago' => $request->observacionesPago,
+            'estadoPago' => $request->estadoPago,
+            'matriculacionID' => $request->matriculacionID,
+        ]);
+
+        return redirect()->back()->with('success', 'Pago registrado correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Pagos $pagos)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Pagos $pagos)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Pagos $pagos)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Pagos $pagos)
     {
         //
