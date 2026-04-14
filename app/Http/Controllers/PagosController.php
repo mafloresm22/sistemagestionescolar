@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Matriculacion;
 use App\Models\Estudiante;
+use App\Models\Configuraciones;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class PagosController extends Controller
 {
@@ -31,7 +34,6 @@ class PagosController extends Controller
         }
 
         $estudiante = Estudiante::findOrFail($idEstudiante);
-        // Obtenemos todas las matrículas del estudiante con sus respectivos pagos
         $matriculaciones = Matriculacion::with(['gestion', 'nivel', 'grado', 'turno', 'pagos', 'seccion'])
             ->where('estudianteID', $idEstudiante)
             ->latest()
@@ -75,13 +77,12 @@ class PagosController extends Controller
         return redirect()->back()->with('success', 'Pago registrado correctamente.');
     }
 
-    public function update(Request $request, Pagos $pagos)
+    public function imprimir($idPago)
     {
-        //
-    }
-
-    public function destroy(Pagos $pagos)
-    {
-        //
+        $configuracion = Configuraciones::first();
+        $pago = Pagos::with(['matriculacion.estudiante', 'matriculacion.gestion', 'matriculacion.grado', 'matriculacion.nivel'])->findOrFail($idPago);
+        
+        $pdf = Pdf::loadView('admin.pagos.imprimir', compact('pago', 'configuracion'));
+        return $pdf->stream('Recibo_Pago_' . $pago->idPago . '.pdf');
     }
 }

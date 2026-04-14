@@ -157,8 +157,6 @@ Route::middleware('auth')->prefix('admin/cursos-docentes')->group(function () {
 Route::middleware('auth')->prefix('admin/pagos')->group(function () {
     Route::get('/', [App\Http\Controllers\PagosController::class, 'index'])->name('admin.pagos.index');
     Route::post('/store', [App\Http\Controllers\PagosController::class, 'store'])->name('admin.pagos.store');
-    Route::put('/update/{idPago}', [App\Http\Controllers\PagosController::class, 'update'])->name('admin.pagos.update');
     Route::get('/show', [App\Http\Controllers\PagosController::class, 'show'])->name('admin.pagos.show');
-    Route::delete('/delete/{idPago}', [App\Http\Controllers\PagosController::class, 'destroy'])->name('admin.pagos.destroy');
     Route::get('/imprimir/{idPago}', [App\Http\Controllers\PagosController::class, 'imprimir'])->name('admin.pagos.imprimir');
 });
