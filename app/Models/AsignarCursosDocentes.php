@@ -57,4 +57,9 @@ class AsignarCursosDocentes extends Model
     {
         return $this->belongsTo(Turnos::class, 'turnoID', 'id');
     }
+
+    public function asistencias()
+    {
+        return $this->hasMany(Asistencias::class, 'asignarCursoDocenteID');
+    }
 }

@@ -5,23 +5,41 @@ namespace App\Http\Controllers;
 use App\Models\Asistencias;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\AsignarCursosDocentes;
+use App\Models\Matriculacion;
 
 class AsistenciasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $asignaciones = AsignarCursosDocentes::with(['docente', 'curso', 'gestion', 'nivel', 'grado', 'seccion', 'turno'])->get();
+        return view('admin.asignaciones_curso_docente.asistencias_curso_docentes.index', compact('asignaciones'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($idAsignarCursoDocente)
     {
-        //
+        $asignacion = AsignarCursosDocentes::with(['curso', 'docente', 'nivel', 'grado', 'seccion', 'turno', 'gestion'])
+            ->findOrFail($idAsignarCursoDocente);
+
+        // Alumnos matriculados en esta sección, turno y gestión
+        $estudiantes = Matriculacion::where([
+            'nivelesID' => $asignacion->nivelID,
+            'gradosID' => $asignacion->gradoID,
+            'seccionID' => $asignacion->seccionID,
+            'turnoID' => $asignacion->turnoID,
+            'gestionID' => $asignacion->gestionID,
+            'estadoMatriculacion' => 'Activo'
+        ])->with('estudiante')->get();
+
+        // Historial de asistencias tomadas para esta asignación
+        $historial = Asistencias::where('asignarCursoDocenteID', $idAsignarCursoDocente)
+            ->orderBy('fechaAsistencias', 'desc')
+            ->get();
+
+        return view('admin.asignaciones_curso_docente.asistencias_curso_docentes.create', compact('asignacion', 'estudiantes', 'historial'));
     }
 
     /**

@@ -448,10 +448,10 @@ return [
                 ],
                 [
                     'text' => 'Asistencias',
-                    'url' => 'admin/docentes/asistencias',
+                    'route' => 'admin.cursos-docentes-asistencias.index',
                     'icon' => 'fas fa-user-check',
                     'classes' => 'bg-lightblue text-white',
-                    'can' => 'admin.asistencias.index',
+                    'can' => 'admin.cursos-docentes-asistencias.index',
                 ],
             ],
         ],

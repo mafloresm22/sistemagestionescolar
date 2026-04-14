@@ -151,6 +151,13 @@ Route::middleware('auth')->prefix('admin/cursos-docentes')->group(function () {
     Route::post('/asignar-cursos-docentes/create', [App\Http\Controllers\AsignarCursosDocentesController::class, 'store'])->name('admin.cursos-docentes.store');
     Route::put('/asignar-cursos-docentes/update/{idAsignarCursoDocente}', [App\Http\Controllers\AsignarCursosDocentesController::class, 'update'])->name('admin.cursos-docentes.update');
     Route::delete('/asignar-cursos-docentes/delete/{idAsignarCursoDocente}', [App\Http\Controllers\AsignarCursosDocentesController::class, 'destroy'])->name('admin.cursos-docentes.destroy');
+
+    // ASISTENCIAS
+    Route::get('/asistencias', [App\Http\Controllers\AsistenciasController::class, 'index'])->name('admin.cursos-docentes-asistencias.index');
+    Route::get('/asistencias/create/{idAsignarCursoDocente}', [App\Http\Controllers\AsistenciasController::class, 'create'])->name('admin.cursos-docentes-asistencias.create');
+    Route::post('/asistencias/store/{idAsignarCursoDocente}', [App\Http\Controllers\AsistenciasController::class, 'store'])->name('admin.cursos-docentes-asistencias.store');
+    Route::put('/asistencias/update/{idAsistencia}', [App\Http\Controllers\AsistenciasController::class, 'update'])->name('admin.cursos-docentes-asistencias.update');
+    Route::get('/asistencias/imprimir/{idAsistencia}', [App\Http\Controllers\AsistenciasController::class, 'imprimir'])->name('admin.cursos-docentes-asistencias.imprimir');
 });
 
 // PAGOS
