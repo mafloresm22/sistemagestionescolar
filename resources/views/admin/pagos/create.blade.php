@@ -1,4 +1,3 @@
-{{-- MODAL PARA REGISTRAR PAGO (Basado en el Modelo Pagos) --}}
 <div class="modal fade" id="modalCreatePago{{ $matriculacion->idMatriculacion }}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
