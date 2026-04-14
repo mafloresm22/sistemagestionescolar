@@ -111,6 +111,24 @@
       "schemaName": "public",
       "x": 137.99067387607278,
       "y": 1887.9717671291644
+    },
+    {
+      "name": "Pagos",
+      "schemaName": "public",
+      "x": 1761.0499246718732,
+      "y": 60.712122864528
+    },
+    {
+      "name": "Asistencias",
+      "schemaName": "public",
+      "x": 320.9224567239079,
+      "y": 2300.674476194337
+    },
+    {
+      "name": "AsistenciasDetalle",
+      "schemaName": "public",
+      "x": 764.5848282919527,
+      "y": 2268.5406204603983
     }
   ],
   "tableGroupCollapseStates": [],
@@ -542,6 +560,66 @@
         "seccionID"
       ],
       "secondTableName": "AsignarCursosDocentes",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idMatriculacion"
+      ],
+      "firstTableName": "Matriculacion",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "matriculacionID"
+      ],
+      "secondTableName": "Pagos",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idAsignarCursoDocente"
+      ],
+      "firstTableName": "AsignarCursosDocentes",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "asignarCursoDocenteID"
+      ],
+      "secondTableName": "Asistencias",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idAsistencia"
+      ],
+      "firstTableName": "Asistencias",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "asistenciaID"
+      ],
+      "secondTableName": "AsistenciasDetalle",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "idEstudiante"
+      ],
+      "firstTableName": "Estudiantes",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "estudianteID"
+      ],
+      "secondTableName": "AsistenciasDetalle",
       "secondSchemaName": "public",
       "secondRelation": "*",
       "checkPoints": []

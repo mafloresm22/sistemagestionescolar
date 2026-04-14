@@ -206,3 +206,17 @@ Table Pagos{
     estadoPago varchar
 }
 
+Table Asistencias{
+    idAsistencia int [pk, increment]
+    asignarCursoDocenteID int [ref: > AsignarCursosDocentes.idAsignarCursoDocente]
+    fechaAsistencias date
+    observacionAsistencias text
+}
+
+Table AsistenciasDetalle{
+    idAsistenciasDetalle int [pk, increment]
+    asistenciaID int [ref: > Asistencias.idAsistencia]
+    estudianteID int [ref: > Estudiantes.idEstudiante]
+    estadoAsistenciasDetalle varchar
+}   
+
