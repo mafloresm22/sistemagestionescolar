@@ -63,7 +63,7 @@
                             <select name="seccionID" id="seccionID" class="form-control border-0 bg-light rounded-pill" style="height: calc(1.5em + 1rem + 2px);" required disabled>
                                 <option value="" disabled selected>Seleccione un grado primero...</option>
                                 @foreach($secciones as $seccion)
-                                    <option value="{{ $seccion->idSeccion }}" data-grado="{{ $seccion->gradoID }}">{{ $seccion->nombreSeccion }}</option>
+                                    <option value="{{ $seccion->idSeccion }}" data-grado="{{ $seccion->gradoID }}">{{ $seccion->nombreSeccion }} - {{ $seccion->grados->nombreGrado ?? 'Sin grado' }}</option>
                                 @endforeach
                             </select>
                         </div>

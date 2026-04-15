@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AsignarCursosDocentes;
 use App\Models\Matriculacion;
+use App\Models\AsignarSeccionesAulas;
+use App\Models\AsistenciasDetalle;
 
 class AsistenciasController extends Controller
 {
@@ -16,9 +18,6 @@ class AsistenciasController extends Controller
         return view('admin.asignaciones_curso_docente.asistencias_curso_docentes.index', compact('asignaciones'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create($idAsignarCursoDocente)
     {
         $asignacion = AsignarCursosDocentes::with(['curso', 'docente', 'nivel', 'grado', 'seccion', 'turno', 'gestion'])
@@ -34,50 +33,54 @@ class AsistenciasController extends Controller
             'estadoMatriculacion' => 'Activo'
         ])->with('estudiante')->get();
 
-        // Historial de asistencias tomadas para esta asignación
         $historial = Asistencias::where('asignarCursoDocenteID', $idAsignarCursoDocente)
             ->orderBy('fechaAsistencias', 'desc')
             ->get();
 
-        return view('admin.asignaciones_curso_docente.asistencias_curso_docentes.create', compact('asignacion', 'estudiantes', 'historial'));
+        $aulaAsignada = AsignarSeccionesAulas::with('aula')
+            ->where('seccionID', $asignacion->seccionID)
+            ->where('turnoID', $asignacion->turnoID)
+            ->first();
+
+        return view('admin.asignaciones_curso_docente.asistencias_curso_docentes.create', compact('asignacion', 'estudiantes', 'historial', 'aulaAsignada'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request, $idAsignarCursoDocente)
     {
-        //
+        // 1. Validar que vengan los alumnos
+        $request->validate([
+            'fechaAsistencias' => 'required|date',
+            'asistencias' => 'required|array',
+        ]);
+
+        // 2. Comprobar si ya tomó asistencia HOY en este mismo curso para evitar duplicados
+        $asistenciaExistente = Asistencias::where('asignarCursoDocenteID', $idAsignarCursoDocente)
+            ->whereDate('fechaAsistencias', $request->fechaAsistencias)
+            ->first();
+
+        if ($asistenciaExistente) {
+            return redirect()->back()->with('error', 'Ya existe un registro de asistencia para este curso en la fecha seleccionada. Si deseas modificarla, utiliza el botón de Editar.');
+        }
+
+        // 3. Crear el registro general de la clase
+        $asistencia = Asistencias::create([
+            'asignarCursoDocenteID' => $idAsignarCursoDocente,
+            'fechaAsistencias' => $request->fechaAsistencias,
+            'observacionAsistencias' => $request->observacionAsistencias ?? 'Sin observaciones',
+        ]);
+
+        foreach ($request->asistencias as $idEstudiante => $estado) {
+            AsistenciasDetalle::create([
+                'asistenciaID' => $asistencia->idAsistencia,
+                'estudianteID' => $idEstudiante,
+                'estadoAsistenciasDetalle' => $estado
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'La asistencia fue registrada exitosamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Asistencias $asistencias)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Asistencias $asistencias)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Asistencias $asistencias)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Asistencias $asistencias)
     {
         //
     }
