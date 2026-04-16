@@ -168,3 +168,16 @@ Route::middleware('auth')->prefix('admin/pagos')->group(function () {
     Route::get('/show', [App\Http\Controllers\PagosController::class, 'show'])->name('admin.pagos.show');
     Route::get('/imprimir/{idPago}', [App\Http\Controllers\PagosController::class, 'imprimir'])->name('admin.pagos.imprimir');
 });
+
+
+//CALIFICACIONES
+
+Route::middleware('auth')->prefix('admin/cursos-docentes')->group(function () {
+    Route::get('/calificaciones', [App\Http\Controllers\CalificacionesController::class, 'index'])->name('admin.calificaciones.index');
+    Route::get('/calificaciones/create/{idAsignarCursoDocente}', [App\Http\Controllers\CalificacionesController::class, 'create'])->name('admin.calificaciones.create');
+    Route::post('/calificaciones/store/{idAsignarCursoDocente}', [App\Http\Controllers\CalificacionesController::class, 'store'])->name('admin.calificaciones.store');
+    Route::get('/calificaciones/edit/{idAsignarCursoDocente}/{periodoID}', [App\Http\Controllers\CalificacionesController::class, 'edit'])->name('admin.calificaciones.edit');
+    Route::put('/calificaciones/update/{idAsignarCursoDocente}/{periodoID}', [App\Http\Controllers\CalificacionesController::class, 'update'])->name('admin.calificaciones.update');
+    Route::get('/calificaciones/show/{id}', [App\Http\Controllers\CalificacionesController::class, 'show'])->name('admin.calificaciones.show');
+    Route::delete('/calificaciones/delete/{id}', [App\Http\Controllers\CalificacionesController::class, 'destroy'])->name('admin.calificaciones.destroy');
+});

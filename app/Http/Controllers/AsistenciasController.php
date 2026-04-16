@@ -9,12 +9,25 @@ use App\Models\AsignarCursosDocentes;
 use App\Models\Matriculacion;
 use App\Models\AsignarSeccionesAulas;
 use App\Models\AsistenciasDetalle;
+use App\Models\Personal;
+use Illuminate\Support\Facades\Auth;
 
 class AsistenciasController extends Controller
 {
     public function index()
     {
-        $asignaciones = AsignarCursosDocentes::with(['docente', 'curso', 'gestion', 'nivel', 'grado', 'seccion', 'turno'])->get();
+        $personal = Personal::where('userID', Auth::id())
+            ->where('tipoPersonal', 'Docente')
+            ->first();
+
+        $query = AsignarCursosDocentes::with(['docente', 'curso', 'gestion', 'nivel', 'grado', 'seccion', 'turno']);
+
+        // Si el usuario autenticado es un docente, filtrar solo sus cursos
+        if ($personal) {
+            $query->where('docenteId', $personal->idPersonal);
+        }
+
+        $asignaciones = $query->get();
         return view('admin.asignaciones_curso_docente.asistencias_curso_docentes.index', compact('asignaciones'));
     }
 

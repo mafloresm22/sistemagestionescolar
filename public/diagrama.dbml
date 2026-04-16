@@ -223,7 +223,7 @@ Table AsistenciasDetalle{
 Table Calificaciones {
     idCalificacion int [pk, increment]
     asignarCursoDocenteID int [ref: > AsignarCursosDocentes.idAsignarCursoDocente]
-    estudianteID int [ref: > Estudiantes.idEstudiante]
+    matriculacionID int [ref: > Matriculacion.idMatriculacion]
     periodoID int [ref: > Periodos.idPeriodo] 
     calificacionCalificaciones decimal
     calificacionLiteralCalificaciones varchar

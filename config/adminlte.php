@@ -464,14 +464,14 @@ return [
         ],
         [
             'text'    => 'Calificaciones',
-            'url' => 'admin/calificaciones',
+            'route' => 'admin.calificaciones.index',
             'icon'    => 'fas fa-star',
             'classes' => 'bg-white text-black',
             'can' => 'admin.calificaciones.index',
         ],
         [
             'text'    => 'Reportes',
-            'url' => 'admin/reportes',
+            'route' => 'admin.reportes.index',
             'icon'    => 'fas fa-file-alt',
             'classes' => 'bg-white text-black',
             'can' => 'admin.reportes.index',
