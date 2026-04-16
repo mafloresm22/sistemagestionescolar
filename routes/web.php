@@ -18,6 +18,10 @@ Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->na
 Route::get('/admin/configuraciones', [App\Http\Controllers\ConfiguracionesController::class, 'index'])->name('admin.configuraciones.index')->middleware('auth');
 Route::post('/admin/configuraciones/create', [App\Http\Controllers\ConfiguracionesController::class, 'store'])->name('admin.configuraciones.store')->middleware('auth');
 
+// REPORTES
+
+Route::get('/admin/reportes', [App\Http\Controllers\ReportesController::class, 'index'])->name('admin.reportes.index')->middleware('auth');
+
 //GESTIONES
 
 Route::get('/admin/gestiones', [App\Http\Controllers\GestionController::class, 'index'])->name('admin.gestiones.index')->middleware('auth');
