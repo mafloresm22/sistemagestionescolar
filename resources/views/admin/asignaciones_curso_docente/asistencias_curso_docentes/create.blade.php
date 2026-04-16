@@ -85,9 +85,9 @@
                                                    class="btn btn-success btn-circle shadow-sm mr-2" title="Reporte PDF">
                                                     <i class="fas fa-file-pdf"></i>
                                                 </a>
-                                                <button class="btn btn-primary btn-circle shadow-sm" title="Editar">
+                                                <a href="{{ route('admin.cursos-docentes-asistencias.edit', $h->idAsistencia) }}" class="btn btn-primary btn-circle shadow-sm" title="Editar">
                                                     <i class="fas fa-edit"></i>
-                                                </button>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
@@ -180,5 +180,16 @@
             "info": true, "responsive": true, "autoWidth": false
         });
     });
+
+    @if(session('mensaje') && session('icono'))
+        Swal.fire({
+            icon: "{{ session('icono') }}", 
+            title: "{{ session('mensaje') }}",
+            timer: 3000,
+            showConfirmButton: false,
+            toast: true,
+            position: 'top-end'
+        });
+    @endif
 </script>
 @stop

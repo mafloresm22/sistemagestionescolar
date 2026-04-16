@@ -157,6 +157,7 @@ Route::middleware('auth')->prefix('admin/cursos-docentes')->group(function () {
     Route::get('/asistencias/create/{idAsignarCursoDocente}', [App\Http\Controllers\AsistenciasController::class, 'create'])->name('admin.cursos-docentes-asistencias.create');
     Route::post('/asistencias/store/{idAsignarCursoDocente}', [App\Http\Controllers\AsistenciasController::class, 'store'])->name('admin.cursos-docentes-asistencias.store');
     Route::put('/asistencias/update/{idAsistencia}', [App\Http\Controllers\AsistenciasController::class, 'update'])->name('admin.cursos-docentes-asistencias.update');
+    Route::get('/asistencias/edit/{idAsistencia}', [App\Http\Controllers\AsistenciasController::class, 'edit'])->name('admin.cursos-docentes-asistencias.edit');
     Route::get('/asistencias/imprimir/{idAsistencia}', [App\Http\Controllers\AsistenciasController::class, 'imprimir'])->name('admin.cursos-docentes-asistencias.imprimir');
 });
 

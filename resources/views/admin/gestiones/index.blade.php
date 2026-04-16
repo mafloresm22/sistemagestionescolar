@@ -204,14 +204,23 @@
 
 @section('js')
     <script>
-        @if(session('mensaje') && session('icono'))
+        @if(session('success'))
             Swal.fire({
-                icon: "{{ session('icono') }}", 
-                title: "{{ session('mensaje') }}",
-                timer: 3000,
+                icon: 'success',
+                title: '¡Éxito!',
+                text: '{{ session('success') }}',
                 showConfirmButton: false,
-                toast: true,
-                position: 'top-end'
+                timer: 3000,
+                timerProgressBar: true,
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: '{{ session('error') }}',
+                showConfirmButton: true,
             });
         @endif
     </script>

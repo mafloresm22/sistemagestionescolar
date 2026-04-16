@@ -220,3 +220,13 @@ Table AsistenciasDetalle{
     estadoAsistenciasDetalle varchar
 }   
 
+Table Calificaciones {
+    idCalificacion int [pk, increment]
+    asignarCursoDocenteID int [ref: > AsignarCursosDocentes.idAsignarCursoDocente]
+    estudianteID int [ref: > Estudiantes.idEstudiante]
+    periodoID int [ref: > Periodos.idPeriodo] 
+    calificacionCalificaciones decimal
+    calificacionLiteralCalificaciones varchar
+    fechaRegistroCalificaciones date
+    estadoCalificaciones varchar
+}

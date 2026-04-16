@@ -129,6 +129,12 @@
       "schemaName": "public",
       "x": 764.5848282919527,
       "y": 2268.5406204603983
+    },
+    {
+      "name": "Calificaciones",
+      "schemaName": "public",
+      "x": 945.4713227140958,
+      "y": 1916.7610661372441
     }
   ],
   "tableGroupCollapseStates": [],

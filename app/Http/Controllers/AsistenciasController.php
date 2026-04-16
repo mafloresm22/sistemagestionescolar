@@ -80,8 +80,53 @@ class AsistenciasController extends Controller
         return redirect()->back()->with('success', 'La asistencia fue registrada exitosamente.');
     }
 
-    public function update(Request $request, Asistencias $asistencias)
+    public function edit($idAsistencia)
     {
-        //
+        $asistencia = Asistencias::with(['asistenciasDetalles.estudiante', 'asignarCursoDocente.curso', 'asignarCursoDocente.docente', 'asignarCursoDocente.grado', 'asignarCursoDocente.seccion'])->findOrFail($idAsistencia);
+        
+        $asignacion = $asistencia->asignarCursoDocente;
+
+        // Necesitamos el aula
+        $aulaAsignada = AsignarSeccionesAulas::with('aula')
+            ->where('seccionID', $asignacion->seccionID)
+            ->where('turnoID', $asignacion->turnoID)
+            ->first();
+
+        return view('admin.asignaciones_curso_docente.asistencias_curso_docentes.edit', compact('asistencia', 'asignacion', 'aulaAsignada'));
+    }
+
+    public function update(Request $request, $idAsistencia)
+    {
+        $request->validate([
+            'asistencias' => 'required|array',
+            'observacionAsistencias' => 'nullable|string',
+        ]);
+
+        $asistencia = Asistencias::findOrFail($idAsistencia);
+        $asistencia->update([
+            'observacionAsistencias' => $request->observacionAsistencias ?? 'Sin observaciones',
+        ]);
+
+        foreach ($request->asistencias as $idDetalle => $estado) {
+            AsistenciasDetalle::where('idAsistenciasDetalle', $idDetalle)->update([
+                'estadoAsistenciasDetalle' => $estado
+            ]);
+        }
+
+        return redirect()->route('admin.cursos-docentes-asistencias.create', $asistencia->asignarCursoDocenteID)->with('success', 'La asistencia fue actualizada correctamente.');
+    }
+
+    public function imprimir($idAsistencia)
+    {
+        $asistencia = Asistencias::with(['asistenciasDetalles.estudiante', 'asignarCursoDocente.curso', 'asignarCursoDocente.docente', 'asignarCursoDocente.grado', 'asignarCursoDocente.seccion', 'asignarCursoDocente.turno', 'asignarCursoDocente.gestion', 'asignarCursoDocente.nivel'])->findOrFail($idAsistencia);
+        
+        $aulaAsignada = AsignarSeccionesAulas::with('aula')
+            ->where('seccionID', $asistencia->asignarCursoDocente->seccionID)
+            ->where('turnoID', $asistencia->asignarCursoDocente->turnoID)
+            ->first();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.asignaciones_curso_docente.asistencias_curso_docentes.pdf', compact('asistencia', 'aulaAsignada'));
+        
+        return $pdf->stream('Asistencia_' . $asistencia->fechaAsistencias . '.pdf');
     }
 }
