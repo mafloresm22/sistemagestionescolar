@@ -22,9 +22,9 @@
                     <i class="fas fa-book"></i>
                 </div>
                 <div class="shape-bg"></div>
-                <a href="{{ route('admin.cursos.index') }}" class="small-box-footer custom-footer">
-                    Ver más <i class="fas fa-arrow-circle-right ml-1"></i>
-                </a>
+                <div class="small-box-footer custom-footer">
+                    Estado Actual <i class="fas fa-check-circle ml-1"></i>
+                </div>
             </div>
         </div>
 
@@ -38,9 +38,9 @@
                     <i class="fas fa-id-shield"></i>
                 </div>
                 <div class="shape-bg"></div>
-                <a href="{{ route('admin.personal.index', 'administrativo') }}" class="small-box-footer custom-footer">
-                    Ver más <i class="fas fa-arrow-circle-right ml-1"></i>
-                </a>
+                <div class="small-box-footer custom-footer">
+                    Estado Actual <i class="fas fa-check-circle ml-1"></i>
+                </div>
             </div>
         </div>
 
@@ -54,9 +54,9 @@
                     <i class="fas fa-user-graduate"></i>
                 </div>
                 <div class="shape-bg"></div>
-                <a href="{{ route('admin.estudiantes.index') }}" class="small-box-footer custom-footer">
-                    Ver más <i class="fas fa-arrow-circle-right ml-1"></i>
-                </a>
+                <div class="small-box-footer custom-footer">
+                    Estado Actual <i class="fas fa-check-circle ml-1"></i>
+                </div>
             </div>
         </div>
 
@@ -70,9 +70,9 @@
                     <i class="fas fa-layer-group"></i>
                 </div>
                 <div class="shape-bg"></div>
-                <a href="{{ route('admin.roles.index') }}" class="small-box-footer custom-footer">
-                    Ver más <i class="fas fa-arrow-circle-right ml-1"></i>
-                </a>
+                <div class="small-box-footer custom-footer">
+                    Estado Actual <i class="fas fa-check-circle ml-1"></i>
+                </div>
             </div>
         </div>
 
@@ -80,64 +80,64 @@
         <div class="col-lg-3 col-6 mb-4">
             <div class="small-box premium-small-box bg-gradient-danger-custom animated-card" style="animation-delay: 0.5s;">
                 <div class="inner">
-                    <h3>0</h3>
+                    <h3>{{ $gradosCount ?? 0 }}</h3>
                     <p>Grados</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
                 <div class="shape-bg"></div>
-                <a href="#" class="small-box-footer custom-footer">
-                    Ver más <i class="fas fa-arrow-circle-right ml-1"></i>
-                </a>
+                <div class="small-box-footer custom-footer">
+                    Estado Actual <i class="fas fa-check-circle ml-1"></i>
+                </div>
             </div>
         </div>
 
         <div class="col-lg-3 col-6 mb-4">
             <div class="small-box premium-small-box bg-gradient-purple-custom animated-card" style="animation-delay: 0.6s;">
                 <div class="inner">
-                    <h3>0</h3>
-                    <p>Materias</p>
+                    <h3>{{ $seccionesCount ?? 0 }}</h3>
+                    <p>Secciones</p>
                 </div>
                 <div class="icon">
-                    <i class="fas fa-book"></i>
+                    <i class="fas fa-layer-group"></i>
                 </div>
                 <div class="shape-bg"></div>
-                <a href="#" class="small-box-footer custom-footer">
-                    Ver más <i class="fas fa-arrow-circle-right ml-1"></i>
-                </a>
+                <div class="small-box-footer custom-footer">
+                    Estado Actual <i class="fas fa-check-circle ml-1"></i>
+                </div>
             </div>
         </div>
 
         <div class="col-lg-3 col-6 mb-4">
             <div class="small-box premium-small-box bg-gradient-teal-custom animated-card" style="animation-delay: 0.7s;">
                 <div class="inner">
-                    <h3>0</h3>
-                    <p>Estudiantes</p>
+                    <h3>{{ $matriculacionesCount ?? 0 }}</h3>
+                    <p>Matrículas</p>
                 </div>
                 <div class="icon">
-                    <i class="fas fa-user-graduate"></i>
+                    <i class="fas fa-file-invoice"></i>
                 </div>
                 <div class="shape-bg"></div>
-                <a href="#" class="small-box-footer custom-footer">
-                    Ver más <i class="fas fa-arrow-circle-right ml-1"></i>
-                </a>
+                <div class="small-box-footer custom-footer">
+                    Estado Actual <i class="fas fa-check-circle ml-1"></i>
+                </div>
             </div>
         </div>
 
         <div class="col-lg-3 col-6 mb-4">
             <div class="small-box premium-small-box bg-gradient-orange-custom animated-card" style="animation-delay: 0.8s;">
                 <div class="inner">
-                    <h3>0</h3>
+                    <h3>{{ $docentesCount ?? 0 }}</h3>
                     <p>Docentes</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-chalkboard-teacher"></i>
                 </div>
                 <div class="shape-bg"></div>
-                <a href="#" class="small-box-footer custom-footer">
-                    Ver más <i class="fas fa-arrow-circle-right ml-1"></i>
-                </a>
+                <div class="small-box-footer custom-footer">
+                    Estado Actual <i class="fas fa-check-circle ml-1"></i>
+                </div>
             </div>
         </div>
     </div>
